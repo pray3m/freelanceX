@@ -1,9 +1,108 @@
-import React from 'react'
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { IoSearchOutline } from "react-icons/io5";
+
+const images = [
+  "/bg-hero1.webp",
+  "/bg-hero2.webp",
+  "/bg-hero3.webp",
+  "/bg-hero4.webp",
+  "/bg-hero5.webp",
+  "/bg-hero6.webp",
+];
+
+const popularSearchTerms = [
+  { label: "Website Design", query: "website design" },
+  { label: "Wordpress", query: "wordpress" },
+  { label: "Logo Design", query: "logo design" },
+  { label: "AI Services", query: "ai services" },
+];
 
 const HeroBanner = () => {
-  return (
-    <div>HeroBanner</div>
-  )
-}
+  const router = useRouter();
+  const [image, setImage] = useState(0);
+  const [searchData, setSearchData] = useState("");
 
-export default HeroBanner
+  useEffect(() => {
+    const interval = setInterval(
+      () => setImage(image >= 5 ? 1 : image + 1),
+      7000
+    );
+    return () => clearInterval(interval);
+  }, [image]);
+
+  const handleSearch = () => {
+    router.push(`/search?q=${searchData}`);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  return (
+    <div className="h-[680px] relative bg-cover">
+      <div className="absolute top-0 right-0 w-[110vw] h-full transition-opacity z-0">
+        {images.map((img, index) => (
+          <Image
+            key={index}
+            alt="hero"
+            src={img}
+            fill
+            className={` ${
+              index == image ? "opacity-100" : "opacity-0"
+            } transition-all duration-1000 ease-in-out`}
+          />
+        ))}
+      </div>
+
+      <div className="z-10 relative w-[650px] flex justify-center flex-col h-full gap-5 ml-20">
+        <h1 className="text-white text-5xl leading-snug ">
+          Find the perfect &nbsp;
+          <i>freelance</i>
+          <br />
+          services for your business
+        </h1>
+
+        <div className="flex align-middle">
+          <div className="relative">
+            <IoSearchOutline className="absolute text-gray-500 text-2xl flex align-middle h-full left-2" />
+            <input
+              type="text"
+              placeholder="Search for any service..."
+              className="h-14 w-[450px] pl-10 pr-5 rounded-md rounded-r-none focus:outline-none"
+              onChange={(e) => setSearchData(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+
+          <button
+            className="bg-[#1DBF73] text-white px-8 text-lg font-semibold rounded-r-md "
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+        </div>
+
+        <div className="text-white flex gap-4">
+          Popular:
+          <ul className="flex gap-5">
+            {popularSearchTerms.map(({ label, query }) => (
+              <li
+                key={query}
+                className="text-sm py-1 px-3 border rounded-full hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+                onClick={() => router.push(`/search?q=${query}`)}
+              >
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HeroBanner;
