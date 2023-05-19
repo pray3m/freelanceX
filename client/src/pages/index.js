@@ -1,9 +1,25 @@
-import React from 'react'
+import Business from "@/components/Business";
+import Companies from "@/components/Companies";
+import Everything from "@/components/Everything";
+import HeroBanner from "@/components/HeroBanner";
+import JoinFreelance from "@/components/JoinFreelance";
+import PopularServices from "@/components/PopularServices";
+import Services from "@/components/Services";
+import React from "react";
 
 const Index = () => {
   return (
-    <div>Index</div>
-  )
-}
+    <div>
+      <HeroBanner />
+      <Companies />
+      <PopularServices />
+      <Everything />
+      <Services />
+      <Business />
+      <JoinFreelance />
+      <Business />
+    </div>
+  );
+};
 
-export default Index
+export default Index;
