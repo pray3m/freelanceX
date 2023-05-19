@@ -43,8 +43,8 @@ const HeroBanner = () => {
   };
 
   return (
-    <div className="h-[680px] relative bg-cover">
-      <div className="absolute top-0 right-0 w-[110vw] h-full transition-opacity z-0">
+    <div className="h-[460px] bg-black md:h-[680px] relative bg-cover">
+      <div className="hidden  md:block absolute top-0 right-0 w-[110vw] h-full transition-opacity z-0">
         {images.map((img, index) => (
           <Image
             key={index}
@@ -58,35 +58,35 @@ const HeroBanner = () => {
         ))}
       </div>
 
-      <div className="z-10 relative w-[650px] flex justify-center flex-col h-full gap-5 ml-20">
-        <h1 className="text-white text-5xl leading-snug ">
+      <div className="z-10 relative md:w-[650px] flex justify-center flex-col h-full gap-8 md:gap-5 md:ml-20 mx-6">
+        <h1 className="font-macan text-white font-semibold text-4xl md:text-5xl leading-snug ">
           Find the perfect &nbsp;
           <i>freelance</i>
           <br />
-          services for your business
+          <i>services</i> for your business
         </h1>
 
-        <div className="flex align-middle">
+        <div className="flex flex-col md:flex-row md:align-middle gap-4 md:gap-0">
           <div className="relative">
             <IoSearchOutline className="absolute text-gray-500 text-2xl flex align-middle h-full left-2" />
             <input
               type="text"
               placeholder="Search for any service..."
-              className="h-14 w-[450px] pl-10 pr-5 rounded-md rounded-r-none focus:outline-none"
+              className="h-14 md:w-[450px] w-full pl-10 pr-5 rounded-md md:rounded-r-none focus:outline-none"
               onChange={(e) => setSearchData(e.target.value)}
               onKeyDown={handleKeyDown}
             />
           </div>
 
           <button
-            className="bg-[#1DBF73] text-white px-8 text-lg font-semibold rounded-r-md "
+            className="bg-[#1DBF73] text-white py-3 md:py-0 px-8 text-lg font-semibold rounded-md md:rounded-l-none "
             onClick={handleSearch}
           >
             Search
           </button>
         </div>
 
-        <div className="text-white flex gap-4">
+        <div className="hidden text-white md:flex gap-4">
           Popular:
           <ul className="flex gap-5">
             {popularSearchTerms.map(({ label, query }) => (
