@@ -17,7 +17,6 @@ const Index = () => {
       <Services />
       <Business />
       <JoinFreelance />
-      <Business />
     </div>
   );
 };
