@@ -41,7 +41,7 @@ const PopularServices = () => {
         {popularServices.map(({ name, label, image }) => (
           <li
             key={name}
-            className="relative cursor-pointer "
+            className="relative cursor-pointer hover:opacity-80 transition-all duration-300 "
             onClick={() => router.push(`/search?q=${name.toLowerCase()}`)}
           >
             <div className="absolute z-10 text-white left-3 top-3">
