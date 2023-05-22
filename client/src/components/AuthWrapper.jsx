@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
+import { useStateProvider } from "../context/StateContext";
+import { reducerCases } from "../context/constants";
 
-const AuthWrapper = () => {
+const AuthWrapper = ({ type }) => {
+  const [{ showLoginModal, showSignupModel }, dispatch] = useStateProvider();
+  const [values, setValues] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
   return (
     <div className="fixed top-0 z-[100]">
       <div className="h-[100vh] w-[100vw] backdrop-blur-md fixed top "></div>
@@ -13,7 +22,7 @@ const AuthWrapper = () => {
         >
           <div className="flex flex-col justify-center items-center p-8 gap-7">
             <h3 className="text-2xl font-semibold text-slate-700">
-              Join freelanceX
+              {type === "login" ? "Login to freelanceX" : "Join freelanceX"}
             </h3>
             <div className="flex flex-col gap-5">
               <button className="text-white bg-blue-500 p-3 font-semibold w-80 flex items-center justify-center relative">
@@ -37,14 +46,16 @@ const AuthWrapper = () => {
                 name="email"
                 placeholder="Email / Username"
                 className="border border-slate-300 p-3 w-80"
-                // onChange={handleChange}
+                value={values.email}
+                onChange={handleChange}
               />
               <input
                 type="password"
                 placeholder="Password"
                 className="border border-slate-300 p-3 w-80"
                 name="password"
-                // onChange={handleChange}
+                value={values.password}
+                onChange={handleChange}
               />
               <button
                 className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80"
@@ -57,8 +68,45 @@ const AuthWrapper = () => {
           </div>
           <div className="py-5 w-full flex items-center justify-center border-t border-slate-400">
             <span className="text-sm  text-slate-700">
-              Not a member yet?
-              <span className="text-[#1dbf73] cursor-pointer"> Join Now </span>
+              {type === "login" ? (
+                <>
+                  Don't have an account?&nbsp;
+                  <span
+                    className="text-[#1DBF73] cursor-pointer"
+                    onClick={() => {
+                      dispatch({
+                        type: reducerCases.TOGGLE_SIGNUP_MODAL,
+                        showSignupModal: true,
+                      });
+                      dispatch({
+                        type: reducerCases.TOGGLE_LOGIN_MODAL,
+                        showLoginModal: false,
+                      });
+                    }}
+                  >
+                    Join Now
+                  </span>
+                </>
+              ) : (
+                <>
+                  Already a member?&nbsp;
+                  <span
+                    className="text-[#1DBF73] cursor-pointer"
+                    onClick={() => {
+                      dispatch({
+                        type: reducerCases.TOGGLE_SIGNUP_MODAL,
+                        showSignupModal: false,
+                      });
+                      dispatch({
+                        type: reducerCases.TOGGLE_LOGIN_MODAL,
+                        showLoginModal: true,
+                      });
+                    }}
+                  >
+                    Login Now
+                  </span>
+                </>
+              )}
             </span>
           </div>
         </div>

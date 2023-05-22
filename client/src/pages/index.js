@@ -6,8 +6,11 @@ import JoinFreelance from "@/components/Landing/JoinFreelance";
 import PopularServices from "@/components/Landing/PopularServices";
 import Services from "@/components/Landing/Services";
 import React from "react";
+import AuthWrapper from "../components/AuthWrapper";
+import { useStateProvider } from "../context/StateContext";
 
 const Index = () => {
+  const [{ showLoginModal, showSignupModal }] = useStateProvider();
   return (
     <div>
       <HeroBanner />
@@ -17,6 +20,9 @@ const Index = () => {
       <Services />
       <Business />
       <JoinFreelance />
+      {(showLoginModal || showSignupModal) && (
+        <AuthWrapper type={showLoginModal ? "login" : "signup"} />
+      )}
     </div>
   );
 };
