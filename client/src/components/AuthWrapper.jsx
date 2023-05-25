@@ -1,15 +1,44 @@
-import React, { useState } from "react";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "../utils/constants";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 
 const AuthWrapper = ({ type }) => {
+  const [cookies, setCookies] = useCookies();
+
   const [{ showLoginModal, showSignupModel }, dispatch] = useStateProvider();
   const [values, setValues] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const { email, password } = values;
+      if (email && password) {
+        const {
+          data: { user, jwt },
+        } = await axios.post(
+          type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE,
+          values,
+          { withCredentials: true }
+        );
+        setCookies("jwt", { jwt });
+        dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
+        if (user) {
+          dispatch({ type: reducerCases.SET_USER, userInfo: user });
+          window.location.reload();
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -59,7 +88,7 @@ const AuthWrapper = ({ type }) => {
               />
               <button
                 className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80"
-                // onClick={handleClick}
+                onClick={handleClick}
                 type="button"
               >
                 Continue

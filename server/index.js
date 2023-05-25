@@ -3,11 +3,20 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/AuthRoutes.js";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// Prisma connection to MongoDB
+const prisma = new PrismaClient();
+
+prisma
+  .$connect()
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("Failed to connect to MongoDB", error));
 
 app.use(
   cors({
