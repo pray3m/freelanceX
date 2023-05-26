@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useStateProvider } from "../context/StateContext";
+import { reducerCases } from "../context/constants";
 import { IoSearchOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { GET_USER_INFO } from "../utils/constants";
 
 const NavBar = () => {
   const handleLogin = () => {};
 
   const handleSignup = () => {};
+
   const router = useRouter();
+  const [cookies] = useCookies();
 
   const [isLoaded, setIsLoaded] = useState(true);
   const [isFixed, setIsFixed] = useState(true);
@@ -23,6 +29,23 @@ const NavBar = () => {
     { linkName: "Sign in", handler: handleLogin, type: "button" },
     { linkName: "Join", handler: handleSignup, type: "button2" },
   ];
+
+  useEffect(() => {
+    if (cookies.jwt && !userInfo) {
+      const getUserInfo = async () => {
+        try {
+          const {
+            data: { user },
+          } = await axios.post(GET_USER_INFO, {}, { withCredentials: true });
+          
+          let projectedUserInfo = { ...user };
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      getUserInfo();
+    }
+  }, [cookies, userInfo]);
 
   return (
     <>
