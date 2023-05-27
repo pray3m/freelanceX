@@ -104,13 +104,13 @@ const NavBar = () => {
           setIsLoaded(true);
           console.log({ user });
           if (user.isProfileInfoSet === false) {
-            // router.push("/profile");
+            router.push("/profile");
           }
         } catch (err) {
           console.log(err);
         }
       };
-      // getUserInfo();
+      getUserInfo();
     } else {
       setIsLoaded(true);
     }
