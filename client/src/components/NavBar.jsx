@@ -4,22 +4,45 @@ import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 import { IoSearchOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { GET_USER_INFO } from "../utils/constants";
 
 const NavBar = () => {
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    if (showSignupModal) {
+      dispatch({
+        type: reducerCases.TOGGLE_SIGNUP_MODAL,
+        showSignupModal: false,
+      });
+    }
+    dispatch({
+      type: reducerCases.TOGGLE_LOGIN_MODAL,
+      showLoginModal: true,
+    });
+  };
 
-  const handleSignup = () => {};
+  const handleSignup = () => {
+    if (showLoginModal) {
+      dispatch({
+        type: reducerCases.TOGGLE_LOGIN_MODAL,
+        showLoginModal: false,
+      });
+    }
+    dispatch({
+      type: reducerCases.TOGGLE_SIGNUP_MODAL,
+      showSignupModal: true,
+    });
+  };
 
   const router = useRouter();
   const [cookies] = useCookies();
 
   const [isLoaded, setIsLoaded] = useState(true);
-  const [isFixed, setIsFixed] = useState(true);
+  const [navFixed, setNavFixed] = useState(false);
   const [searchData, setSearchData] = useState("");
-  const [{ showLoginModal, showSignupModal, userInfo, isSeller }, dispatch] =
+  const [{ showLoginModal, showSignupModal, isSeller, userInfo }, dispatch] =
     useStateProvider();
 
   const links = [
@@ -31,19 +54,65 @@ const NavBar = () => {
   ];
 
   useEffect(() => {
+    if (router.pathname === "/") {
+      const positionNavbar = () => {
+        window.pageYOffset > 0 ? setNavFixed(true) : setNavFixed(false);
+      };
+      window.addEventListener("scroll", positionNavbar);
+      return () => window.removeEventListener("scroll", positionNavbar);
+    } else {
+      setNavFixed(true);
+    }
+  }, [router.pathname]);
+
+  const handleOrdersNavigate = () => {
+    if (isSeller) router.push("/seller/orders");
+    router.push("/buyer/orders");
+  };
+
+  const handleModeSwitch = () => {
+    if (isSeller) {
+      dispatch({ type: reducerCases.SWITCH_MODE });
+      router.push("/buyer/orders");
+    } else {
+      dispatch({ type: reducerCases.SWITCH_MODE });
+      router.push("/seller");
+    }
+  };
+
+  useEffect(() => {
     if (cookies.jwt && !userInfo) {
       const getUserInfo = async () => {
         try {
           const {
             data: { user },
           } = await axios.post(GET_USER_INFO, {}, { withCredentials: true });
-          
+          console.log({ user });
+
           let projectedUserInfo = { ...user };
+          if (user.image) {
+            projectedUserInfo = {
+              ...projectedUserInfo,
+              imageName: HOST + "/" + user.image,
+            };
+          }
+          delete projectedUserInfo.image;
+          dispatch({
+            type: reducerCases.SET_USER,
+            userInfo: projectedUserInfo,
+          });
+          setIsLoaded(true);
+          console.log({ user });
+          if (user.isProfileInfoSet === false) {
+            // router.push("/profile");
+          }
         } catch (err) {
           console.log(err);
         }
       };
-      getUserInfo();
+      // getUserInfo();
+    } else {
+      setIsLoaded(true);
     }
   }, [cookies, userInfo]);
 
@@ -52,14 +121,18 @@ const NavBar = () => {
       {isLoaded && (
         <nav
           className={`w-full px-10 flex justify-between items-center py-4 top-0 z-30 transition-all duration-300 ${
-            isFixed || userInfo
+            navFixed || userInfo
               ? "fixed bg-white border-b border-gray-200"
               : "absolute bg-transparent border-transparent "
           }`}
         >
           <div>
             <Link href="/">
-              <p className={!isFixed ? "text-[#fff]" : "text-[#404145]"}>
+              <p
+                className={
+                  !navFixed && !userInfo ? "text-[#fff]" : "text-[#404145]"
+                }
+              >
                 <span className="text-3xl font-semibold flex items-center">
                   <i>freelance</i> <b className="text-green-700 text-4xl">X</b>
                 </span>
@@ -68,7 +141,7 @@ const NavBar = () => {
           </div>
           <div
             className={`hidden lg:flex ${
-              isFixed || userInfo ? "opacity-100" : "opacity-0"
+              navFixed || userInfo ? "opacity-100" : "opacity-0"
             }`}
           >
             <input
@@ -95,7 +168,7 @@ const NavBar = () => {
                   <li
                     key={linkName}
                     className={`${
-                      isFixed ? "text-black " : "text-white"
+                      navFixed ? "text-black " : "text-white"
                     } font-medium `}
                   >
                     {type === "link" && <Link href={handler}> {linkName}</Link>}
@@ -106,7 +179,7 @@ const NavBar = () => {
                       <button
                         onClick={handler}
                         className={`border text-md font-semibold py-1 px-3 rounded-sm ${
-                          isFixed
+                          navFixed
                             ? "border-[#1DBF73] text-[#1DBF73]"
                             : "border-white text-white"
                         } hover:bg-[#1DBF73] hover:text-white hover:border-[#1DBF73] transition-all duration-300`}
@@ -120,7 +193,64 @@ const NavBar = () => {
               })}
             </ul>
           ) : (
-            <ul></ul>
+            <ul className="flex gap-10 items-center">
+              {isSeller && (
+                <li
+                  className="cursor-pointer text-[#1DBF73] font-medium"
+                  onClick={() => router.push("/seller/gigs/create")}
+                >
+                  Create Gig
+                </li>
+              )}
+              <li
+                className="cursor-pointer text-[#1DBF73] font-medium"
+                onClick={handleOrdersNavigate}
+              >
+                Orders
+              </li>
+
+              {isSeller ? (
+                <li
+                  className="cursor-pointer font-medium"
+                  onClick={handleModeSwitch}
+                >
+                  Switch To Buyer
+                </li>
+              ) : (
+                <li
+                  className="cursor-pointer font-medium"
+                  onClick={handleModeSwitch}
+                >
+                  Switch To Seller
+                </li>
+              )}
+              <li
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // setIsContextMenuVisible(true);
+                }}
+                title="Profile"
+              >
+                {userInfo?.imageName ? (
+                  <Image
+                    src={userInfo.imageName}
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
+                    <span className="text-xl text-white">
+                      {userInfo &&
+                        userInfo?.email &&
+                        userInfo?.email.split("")[0].toUpperCase()}
+                    </span>
+                  </div>
+                )}
+              </li>
+            </ul>
           )}
         </nav>
       )}

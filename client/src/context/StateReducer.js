@@ -29,6 +29,11 @@ const reducer = (state, action) => {
         ...state,
         userInfo: action.userInfo,
       };
+    case reducerCases.SWITCH_MODE:
+      return {
+        ...state,
+        isSeller: !state.isSeller,
+      };
     default:
       return state;
   }
