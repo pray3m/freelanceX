@@ -1,4 +1,5 @@
 import prisma from "../prisma/client.js";
+import { Prisma } from "@prisma/client";
 import { compare, genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -79,5 +80,45 @@ export const getUserInfo = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     return res.status(500).send("Internal Server Error");
+  }
+};
+
+export const setUserInfo = async (req, res, next) => {
+  try {
+    if (req?.userId) {
+      const { userName, fullName, description } = req.body;
+      if (userName && fullName && description) {
+        const userNameValid = await prisma.user.findUnique({
+          where: { username: userName },
+        });
+        if (userNameValid) {
+          return res.status(200).json({ userNameError: true });
+        }
+
+        await prisma.user.update({
+          where: { id: req.userId },
+          data: {
+            username: userName,
+            fullName,
+            description,
+            isProfileInfoSet: true,
+          },
+        });
+        return res.status(200).send("Profile info set successfully");
+      }
+    } else {
+      return res
+        .status(400)
+        .send("Username, Full name and Description are required");
+    }
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      if (err.code === "P2002") {
+        return res.status(400).json({ userNameError: true });
+      }
+    } else {
+      return res.status(500).send("Internal Server Error");
+    }
+    throw err;
   }
 };
