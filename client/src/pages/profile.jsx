@@ -1,12 +1,14 @@
+import axios from "axios";
 import { useStateProvider } from "../context/StateContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { SET_USER_INFO } from "../utils/constants";
 
 function Profile() {
   const router = useRouter();
   const [{ userInfo }, dispatch] = useStateProvider();
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [imageHover, setImageHover] = useState(false);
   const [image, setImage] = useState(undefined);
   const [errorMessage, setErrorMessage] = useState("");
@@ -16,6 +18,17 @@ function Profile() {
     description: "",
   });
 
+  useEffect(() => {
+    const handleData = { ...data };
+    if (userInfo) {
+      if (userInfo?.username) handleData.userName = userInfo?.username;
+      if (userInfo?.fullName) handleData.fullName = userInfo?.fullName;
+      if (userInfo?.description) handleData.description = userInfo?.description;
+    }
+    setData(handleData);
+    setIsLoaded(true);
+  }, [userInfo]);
+
   const handleFile = (e) => {
     let file = e.target.files;
     const fileType = file[0]["type"];
@@ -24,11 +37,27 @@ function Profile() {
       setImage(file[0]);
     }
   };
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const setProfile = async () => {};
+  const setProfile = async () => {
+    try {
+      const response = await axios.post(
+        SET_USER_INFO,
+        { ...data },
+        { withCredentials: true }
+      );
+      if (response.data.userNameError) {
+        setErrorMessage("Username is already taken");
+      } else {
+        setErrorMessage("");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const inputClassName =
     "block p-4 w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:ring-blue-500 focus:border-blue-500";
