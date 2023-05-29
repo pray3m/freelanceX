@@ -2,6 +2,7 @@ import prisma from "../prisma/client.js";
 import { Prisma } from "@prisma/client";
 import { compare, genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
+import { renameSync } from "fs";
 
 const generatePassword = async (password) => {
   const salt = await genSalt();
@@ -120,5 +121,28 @@ export const setUserInfo = async (req, res, next) => {
       return res.status(500).send("Internal Server Error");
     }
     throw err;
+  }
+};
+
+export const setUserImage = async (req, res, next) => {
+  try {
+    if (req.file) {
+      if (req.userId) {
+        console.log(req.file);
+        const date = Date.now();
+        let fileName = "uploads/profiles/" + date + req.file.originalname;
+        renameSync(req.file.path, fileName);
+        await prisma.user.update({
+          where: { id: req.userId },
+          data: { profileImage: fileName },
+        });
+        return res.status(200).json({ img: fileName });
+      }
+      return res.status(400).send("Cookie error");
+    }
+    return res.status(400).send("Image is required");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
   }
 };

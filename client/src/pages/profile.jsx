@@ -3,7 +3,8 @@ import { useStateProvider } from "../context/StateContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { SET_USER_INFO } from "../utils/constants";
+import { HOST, SET_USER_IMAGE, SET_USER_INFO } from "../utils/constants";
+import { reducerCases } from "../context/constants";
 
 function Profile() {
   const router = useRouter();
@@ -25,6 +26,17 @@ function Profile() {
       if (userInfo?.fullName) handleData.fullName = userInfo?.fullName;
       if (userInfo?.description) handleData.description = userInfo?.description;
     }
+
+    if (userInfo?.imageName) {
+      const fileName = image;
+      fetch(userInfo?.imageName).then(async (res) => {
+        const contentType = res.headers.get("content-type");
+        const blob = await res.blob();
+        const files = new File([blob], fileName, { contentType });
+        setImage(files);
+      });
+    }
+
     setData(handleData);
     setIsLoaded(true);
   }, [userInfo]);
@@ -53,6 +65,29 @@ function Profile() {
         setErrorMessage("Username is already taken");
       } else {
         setErrorMessage("");
+        let imageName = "";
+        if (image) {
+          const formData = new FormData();
+          formData.append("images", image);
+          const {
+            data: { img },
+          } = await axios.post(SET_USER_IMAGE, formData, {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          imageName = img;
+        }
+
+        dispatch({
+          type: reducerCases.SET_USER,
+          userInfo: {
+            ...userInfo,
+            ...data,
+            image: imageName.length ? HOST + "/" + imageName : false,
+          },
+        });
       }
     } catch (err) {
       console.log(err);
@@ -93,7 +128,7 @@ function Profile() {
                   />
                 ) : (
                   <span className="text-6xl text-white">
-                    {/* {userInfo.email[0].toUpperCase()} */}
+                    {userInfo?.email[0].toUpperCase()}
                   </span>
                 )}
                 <div

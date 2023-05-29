@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { GET_USER_INFO } from "../utils/constants";
+import { GET_USER_INFO, HOST } from "../utils/constants";
 
 const NavBar = () => {
   const handleLogin = () => {
@@ -90,13 +90,13 @@ const NavBar = () => {
           console.log({ user });
 
           let projectedUserInfo = { ...user };
-          if (user.image) {
+          if (user.profileImage) {
             projectedUserInfo = {
               ...projectedUserInfo,
-              imageName: HOST + "/" + user.image,
+              imageName: HOST + "/" + user.profileImage,
             };
           }
-          delete projectedUserInfo.image;
+          delete projectedUserInfo.profileImage;
           dispatch({
             type: reducerCases.SET_USER,
             userInfo: projectedUserInfo,
