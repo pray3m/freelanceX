@@ -39,7 +39,7 @@ const NavBar = () => {
   const router = useRouter();
   const [cookies] = useCookies();
 
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [navFixed, setNavFixed] = useState(false);
   const [searchData, setSearchData] = useState("");
   const [{ showLoginModal, showSignupModal, isSeller, userInfo }, dispatch] =
