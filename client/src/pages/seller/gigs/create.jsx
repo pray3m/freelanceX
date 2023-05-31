@@ -169,7 +169,7 @@ const create = () => {
               Gig Images
             </label>
             <div>
-              <ImageUpload />
+              <ImageUpload files={files} setFile={setFiles} />
             </div>
           </div>
         </div>
