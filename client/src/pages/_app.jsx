@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import NextNProgress from "nextjs-progressbar";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -15,6 +16,7 @@ export default function App({ Component, pageProps }) {
         <link rel="shortcut icon" href="/favicon.ico" />
         <title>freelanceX</title>
       </Head>
+      <NextNProgress />
       <div className="relative flex flex-col h-screen justify-between">
         <NavBar />
         <div
