@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/AuthRoutes.js";
 import prisma from "./prisma/client.js";
+import { gigRoutes } from "./routes/GigRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +31,8 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/gigs", gigRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server is listening at url: http://localhost:${port}`);
