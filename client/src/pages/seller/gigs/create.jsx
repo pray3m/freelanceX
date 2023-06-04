@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { categories } from "../../../utils/categories";
 import ImageUpload from "../../../components/ImageUpload";
+import axios from "axios";
+import { ADD_GIG_ROUTE } from "../../../utils/constants";
+import { useRouter } from "next/router";
 
 const create = () => {
+  const router = useRouter();
   const [files, setFiles] = useState([]);
   const [features, setFeatures] = useState([]);
   const [data, setData] = useState({
@@ -33,7 +37,46 @@ const create = () => {
     setFeatures(clonedFeatures);
   };
 
-  const addGig = () => {};
+  const addGig = async () => {
+    const { title, category, description, time, revisions, price, shortDesc } =
+      data;
+    if (
+      category &&
+      description &&
+      features.length &&
+      files.length &&
+      price > 0 &&
+      shortDesc.length &&
+      time > 0 &&
+      title &&
+      revisions > 0
+    ) {
+      const formData = new FormData();
+      files.forEach((file) => formData.append("images", file));
+      const gigData = {
+        title,
+        description,
+        category,
+        time,
+        revisions,
+        price,
+        shortDesc,
+        features,
+      };
+
+      const response = await axios.post(ADD_GIG_ROUTE, formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params: gigData,
+      });
+
+      if (response.status === 201) {
+        router.push("/seller/gigs");
+      }
+    }
+  };
 
   const inputClassName =
     "block p-4 w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:ring-blue-500 focus:border-blue-500";

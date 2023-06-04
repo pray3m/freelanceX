@@ -15,7 +15,7 @@ export const addGig = async (req, res, next) => {
         fileNames.push(date + req.files[file].originalname);
       });
       if (req.query) {
-        const { 
+        const {
           title,
           description,
           category,
@@ -36,7 +36,7 @@ export const addGig = async (req, res, next) => {
             price: parseInt(price),
             shortDesc,
             revisions: parseInt(revisions),
-            createdBy: { connect: { id: req.user.id } },
+            createdBy: { connect: { id: req.userId } },
             images: fileNames,
           },
         });
