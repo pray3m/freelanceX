@@ -12,3 +12,4 @@ export const SET_USER_IMAGE = `${AUTH_ROUTES}/set-user-image`;
 
 export const ADD_GIG_ROUTE = `${GIG_ROUTES}/add`;
 export const GET_ALL_USER_GIGS_ROUTE = `${GIG_ROUTES}/`;
+export const GET_GIG_BY_ID_ROUTE = `${GIG_ROUTES}/`;

@@ -26,13 +26,13 @@ app.use(
 );
 
 app.use("/uploads/profiles", express.static("uploads/profiles"));
+app.use("/uploads", express.static("uploads"));
 
 app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
-
 
 app.listen(port, () => {
   console.log(`Server is listening at url: http://localhost:${port}`);
