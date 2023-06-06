@@ -66,3 +66,18 @@ export const getAllUserGigs = async (req, res, next) => {
     return res.status(500).send("Internal Server Error.");
   }
 };
+
+export const getGigById = async (req, res, next) => {
+  try {
+    if (req.params.gigId) {
+      const gig = await prisma.gig.findUnique({
+        where: { id: parseInt(req.params.gigId) },
+      });
+      return res.status(200).json({ gig });
+    }
+    return res.status(400).send("GigId is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error.");
+  }
+};
