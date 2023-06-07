@@ -1,4 +1,4 @@
-import { renameSync } from "fs";
+import { existsSync, renameSync, unlinkSync } from "fs";
 import prisma from "../prisma/client.js";
 
 export const addGig = async (req, res, next) => {
@@ -76,6 +76,67 @@ export const getGigById = async (req, res, next) => {
       return res.status(200).json({ gig });
     }
     return res.status(400).send("GigId is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error.");
+  }
+};
+
+export const updateGig = async (req, res, next) => {
+  try {
+    if (req.files) {
+      const fileKeys = Object.keys(req.files);
+      const fileNames = [];
+      fileKeys.forEach((file) => {
+        const date = Date.now();
+        renameSync(
+          req.files[file].path,
+          "uploads/" + date + req.files[file].originalname
+        );
+        fileNames.push(date + req.files[file].originalname);
+      });
+      if (req.query) {
+        const {
+          title,
+          description,
+          category,
+          features,
+          price,
+          revisions,
+          time,
+          shortDesc,
+        } = req.query;
+
+        const oldData = await prisma.gig.findUnique({
+          where: { id: req.params.gigId },
+        });
+
+        const gig = await prisma.gig.update({
+          where: { id: req.params.gigId },
+          data: {
+            title,
+            description,
+            deliveryTime: parseInt(time),
+            category,
+            features,
+            price: parseInt(price),
+            shortDesc,
+            revisions: parseInt(revisions),
+            createdBy: { connect: { id: req.userId } },
+            images: fileNames,
+          },
+        });
+
+        oldData?.images?.forEach((image) => {
+          if (existsSync(`uploads/${image}`)) {
+            unlinkSync(`uploads/${image}`);
+          }
+        });
+
+        return res.status(200).send("Successfuly updated the gig.");
+      }
+    }
+    return res.status(400).send("All properties are required.");
   } catch (err) {
     console.log(err);
     return res.status(500).send("Internal Server Error.");

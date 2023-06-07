@@ -6,6 +6,7 @@ import {
   ADD_GIG_ROUTE,
   GET_GIG_BY_ID_ROUTE,
   HOST,
+  UPDATE_GIG_ROUTE,
 } from "../../../utils/constants";
 import { useRouter } from "next/router";
 
@@ -42,7 +43,7 @@ const create = () => {
     setFeatures(clonedFeatures);
   };
 
-  const addGig = async () => {
+  const editGig = async () => {
     const { title, category, description, time, revisions, price, shortDesc } =
       data;
     if (
@@ -69,15 +70,19 @@ const create = () => {
         features,
       };
 
-      const response = await axios.post(ADD_GIG_ROUTE, formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: gigData,
-      });
+      const response = await axios.put(
+        `${UPDATE_GIG_ROUTE}/${gigId}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          params: gigData,
+        }
+      );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         router.push("/seller/gigs");
       }
     }
@@ -283,7 +288,7 @@ const create = () => {
           <button
             className="border   text-lg font-semibold px-5 py-3   border-[#1DBF73] bg-[#1DBF73] text-white rounded-md"
             type="button"
-            onClick={addGig}
+            onClick={editGig}
           >
             Update
           </button>
