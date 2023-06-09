@@ -5,8 +5,11 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { HOST, SET_USER_IMAGE, SET_USER_INFO } from "../utils/constants";
 import { reducerCases } from "../context/constants";
+import { useCookies } from "react-cookie";
+import { headers } from "next/dist/client/components/headers";
 
 function Profile() {
+  const [cookies] = useCookies();
   const router = useRouter();
   const [{ userInfo }, dispatch] = useStateProvider();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -59,7 +62,11 @@ function Profile() {
       const response = await axios.post(
         SET_USER_INFO,
         { ...data },
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.jwt}`,
+          },
+        }
       );
       if (response.data.userNameError) {
         setErrorMessage("Username is already taken");
@@ -72,9 +79,9 @@ function Profile() {
           const {
             data: { img },
           } = await axios.post(SET_USER_IMAGE, formData, {
-            withCredentials: true,
             headers: {
               "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${cookies.jwt}`,
             },
           });
           imageName = img;

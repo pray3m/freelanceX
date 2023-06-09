@@ -29,7 +29,7 @@ const AuthWrapper = ({ type }) => {
           values,
           { withCredentials: true }
         );
-        setCookies("jwt", { jwt });
+        setCookies("jwt", jwt);
         dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
         if (user) {
           dispatch({ type: reducerCases.SET_USER, userInfo: user });

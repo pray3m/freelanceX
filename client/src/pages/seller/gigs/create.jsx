@@ -4,8 +4,10 @@ import ImageUpload from "../../../components/ImageUpload";
 import axios from "axios";
 import { ADD_GIG_ROUTE } from "../../../utils/constants";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 const create = () => {
+  const [cookies] = useCookies();
   const router = useRouter();
   const [files, setFiles] = useState([]);
   const [features, setFeatures] = useState([]);
@@ -65,9 +67,9 @@ const create = () => {
       };
 
       const response = await axios.post(ADD_GIG_ROUTE, formData, {
-        withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${cookies.token}`,
         },
         params: gigData,
       });

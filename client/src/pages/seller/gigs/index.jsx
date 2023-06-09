@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { GET_ALL_USER_GIGS_ROUTE } from "../../../utils/constants";
 import axios from "axios";
 import Link from "next/link";
+import { useCookies } from "react-cookie";
 
 const index = () => {
+  const [cookies] = useCookies();
   const [gigs, setGigs] = useState([]);
 
   useEffect(() => {
     const getUserGigs = async () => {
       try {
         const { data } = await axios.get(GET_ALL_USER_GIGS_ROUTE, {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${cookies.jwt}`,
+          },
         });
         console.log(data);
         setGigs(data.gigs);

@@ -86,7 +86,15 @@ const NavBar = () => {
         try {
           const {
             data: { user },
-          } = await axios.post(GET_USER_INFO, {}, { withCredentials: true });
+          } = await axios.post(
+            GET_USER_INFO,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${cookies.jwt}`,
+              },
+            }
+          );
           console.log({ user });
 
           let projectedUserInfo = { ...user };

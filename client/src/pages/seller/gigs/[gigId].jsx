@@ -9,8 +9,10 @@ import {
   UPDATE_GIG_ROUTE,
 } from "../../../utils/constants";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 const create = () => {
+  const [cookies] = useCookies();
   const router = useRouter();
   const { gigId } = router.query;
   const [files, setFiles] = useState([]);
@@ -74,9 +76,9 @@ const create = () => {
         `${UPDATE_GIG_ROUTE}/${gigId}`,
         formData,
         {
-          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${cookies.jwt}`,
           },
           params: gigData,
         }
