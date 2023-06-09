@@ -40,36 +40,38 @@ const create = () => {
   };
 
   const addGig = async () => {
-    const { title, category, description, time, revisions, price, shortDesc } =
+    const { category, description, price, revisions, time, title, shortDesc } =
       data;
     if (
       category &&
       description &&
+      title &&
       features.length &&
       files.length &&
       price > 0 &&
       shortDesc.length &&
-      time > 0 &&
-      title &&
-      revisions > 0
+      revisions > 0 &&
+      time > 0
     ) {
       const formData = new FormData();
       files.forEach((file) => formData.append("images", file));
+
       const gigData = {
         title,
         description,
         category,
-        time,
-        revisions,
-        price,
-        shortDesc,
         features,
+        price,
+        revisions,
+        time,
+        shortDesc,
       };
 
       const response = await axios.post(ADD_GIG_ROUTE, formData, {
+        withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${cookies.token}`,
+          Authorization: `Bearer ${cookies.jwt}`,
         },
         params: gigData,
       });
