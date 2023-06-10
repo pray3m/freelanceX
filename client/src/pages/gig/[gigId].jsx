@@ -3,6 +3,9 @@ import { useStateProvider } from "../../context/StateContext";
 import { useRouter } from "next/router";
 import { GET_GIG_BY_ID_ROUTE } from "../../utils/constants";
 import axios from "axios";
+import Details from "../../components/Gigs/Details";
+import Pricing from "../../components/Gigs/Pricing";
+import { reducerCases } from "../../context/constants";
 
 const GigInfo = () => {
   const router = useRouter();
@@ -16,7 +19,8 @@ const GigInfo = () => {
         const {
           data: { gig },
         } = await axios.get(`${GET_GIG_BY_ID_ROUTE}/${gigId}`);
-        console.log({ gig });
+        dispatch({ type: reducerCases.SET_GIG_DATA, gigData: gig });
+        // console.log({ gig });
       } catch (er) {
         console.log(er);
       }
@@ -24,7 +28,12 @@ const GigInfo = () => {
     if (gigId) fetchGigInfo();
   }, [gigId, dispatch]);
 
-  return <div>gigInfo</div>;
+  return (
+    <div className="grid grid-cols-3 mx-32 gap-20">
+      <Details />
+      <Pricing />
+    </div>
+  );
 };
 
 export default GigInfo;
