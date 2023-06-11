@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdFacebook } from "react-icons/md";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
+import { toast } from "react-toastify";
 
 const AuthWrapper = ({ type }) => {
   const [cookies, setCookies] = useCookies();
@@ -34,10 +35,12 @@ const AuthWrapper = ({ type }) => {
         if (user) {
           dispatch({ type: reducerCases.SET_USER, userInfo: user });
           window.location.reload();
+          toast.success("Login/Signup successful!");
         }
       }
     } catch (err) {
       console.log(err);
+      toast.error("An error occurred.");
     }
   };
 

@@ -2,6 +2,8 @@ import "../styles/globals.css";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import NextNProgress from "nextjs-progressbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -17,6 +19,7 @@ export default function App({ Component, pageProps }) {
         <title>freelanceX</title>
       </Head>
       <NextNProgress />
+      <ToastContainer />
       <div className="relative flex flex-col h-screen justify-between">
         <NavBar />
         <div

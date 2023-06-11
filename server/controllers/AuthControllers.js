@@ -25,6 +25,7 @@ export const signup = async (req, res, next) => {
         data: {
           email,
           password: await generatePassword(password),
+          username: email.split("@")[0],
         },
       });
       return res.status(200).json({

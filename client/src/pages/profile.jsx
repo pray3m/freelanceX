@@ -7,6 +7,7 @@ import { HOST, SET_USER_IMAGE, SET_USER_INFO } from "../utils/constants";
 import { reducerCases } from "../context/constants";
 import { useCookies } from "react-cookie";
 import { headers } from "next/dist/client/components/headers";
+import { toast } from "react-toastify";
 
 function Profile() {
   const [cookies] = useCookies();
@@ -59,6 +60,11 @@ function Profile() {
 
   const setProfile = async () => {
     try {
+      if (!data.userName || !data.fullName || !data.description) {
+        toast.info("Please fill all the fields");
+        return;
+      }
+
       const response = await axios.post(
         SET_USER_INFO,
         { ...data },
@@ -70,6 +76,7 @@ function Profile() {
       );
       if (response.data.userNameError) {
         setErrorMessage("Username is already taken");
+        toast.error("Username is already taken");
       } else {
         setErrorMessage("");
         let imageName = "";
