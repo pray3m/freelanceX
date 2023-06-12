@@ -22,21 +22,24 @@ const AuthWrapper = ({ type }) => {
     e.preventDefault();
     try {
       const { email, password } = values;
-      if (email && password) {
-        const {
-          data: { user, jwt },
-        } = await axios.post(
-          type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE,
-          values,
-          { withCredentials: true }
-        );
-        setCookies("jwt", jwt);
-        dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
-        if (user) {
-          dispatch({ type: reducerCases.SET_USER, userInfo: user });
-          window.location.reload();
-          toast.success("Login/Signup successful!");
-        }
+      if (!email || !password) {
+        toast.error("Please fill all the fields.");
+        return;
+      }
+
+      const {
+        data: { user, jwt },
+      } = await axios.post(
+        type === "login" ? LOGIN_ROUTE : SIGNUP_ROUTE,
+        values,
+        { withCredentials: true }
+      );
+      setCookies("jwt", jwt);
+      dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
+      if (user) {
+        dispatch({ type: reducerCases.SET_USER, userInfo: user });
+        toast.success("Login/Signup successful!");
+        // window.location.reload();
       }
     } catch (err) {
       console.log(err);
@@ -54,7 +57,9 @@ const AuthWrapper = ({ type }) => {
         >
           <div className="flex flex-col justify-center items-center p-8 gap-7">
             <h3 className="text-2xl font-semibold text-slate-700">
-              {type === "login" ? "Login to freelanceX" : "Join freelanceX"}
+              {type === "login"
+                ? "Nice to see you again ! "
+                : "Start your journey with us!"}
             </h3>
             <div className="flex flex-col gap-5">
               <button className="text-white bg-blue-500 p-3 font-semibold w-80 flex items-center justify-center relative">
@@ -89,6 +94,20 @@ const AuthWrapper = ({ type }) => {
                 value={values.password}
                 onChange={handleChange}
               />
+
+              {type === "login" && (
+                <span
+                  className="text-[#1DBF73] text-sm cursor-pointer text-right "
+                  onClick={() =>
+                    alert(
+                      "Hey, forgetful genius! Relax and try to remember your password! 🔍"
+                    )
+                  }
+                >
+                  Forgot Password?
+                </span>
+              )}
+
               <button
                 className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80"
                 onClick={handleClick}

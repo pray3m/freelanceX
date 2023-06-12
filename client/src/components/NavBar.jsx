@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { GET_USER_INFO, HOST } from "../utils/constants";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
   const handleLogin = () => {
@@ -56,7 +57,7 @@ const NavBar = () => {
   useEffect(() => {
     if (router.pathname === "/") {
       const positionNavbar = () => {
-        window.pageYOffset > 0 ? setNavFixed(true) : setNavFixed(false);
+        window.scrollY > 0 ? setNavFixed(true) : setNavFixed(false);
       };
       window.addEventListener("scroll", positionNavbar);
       return () => window.removeEventListener("scroll", positionNavbar);
@@ -116,13 +117,14 @@ const NavBar = () => {
           }
         } catch (err) {
           console.log(err);
+          toast.error("Something went wrong");
         }
       };
       getUserInfo();
     } else {
       setIsLoaded(true);
     }
-  }, [cookies, userInfo]);
+  }, [cookies, userInfo, dispatch]);
 
   return (
     <>
