@@ -4,6 +4,7 @@ export const IMAGES_URL = `${HOST}/uploads`;
 
 export const AUTH_ROUTES = `${API_URL}/auth`;
 export const GIG_ROUTES = `${API_URL}/gigs`;
+export const ORDER_ROUTES = `${API_URL}/orders`;
 
 export const SIGNUP_ROUTE = `${AUTH_ROUTES}/signup`;
 export const LOGIN_ROUTE = `${AUTH_ROUTES}/login`;
@@ -16,3 +17,5 @@ export const GET_ALL_USER_GIGS_ROUTE = `${GIG_ROUTES}`;
 export const GET_GIG_BY_ID_ROUTE = `${GIG_ROUTES}/get`;
 export const UPDATE_GIG_ROUTE = `${GIG_ROUTES}/edit`;
 export const SEARCH_GIGS_ROUTE = `${GIG_ROUTES}/search`;
+
+export const CREATE_ORDER = `${ORDER_ROUTES}/create`;
