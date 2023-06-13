@@ -39,3 +39,18 @@ export const createOrder = async (req, res, next) => {
     return res.status(500).send("Internal Server Error.");
   }
 };
+
+export const confirmOrder = async (req, res, next) => {
+  try {
+    if (req.body.paymentIntent) {
+      await prisma.order.update({
+        where: { paymentIntent: req.body.paymentIntent },
+        data: { isCompleted: true },
+      });
+    }
+    return res.status(200).send("Order confirmed.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error.");
+  }
+};
