@@ -82,7 +82,7 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    if (cookies.jwt && !userInfo) {
+    if (cookies.jwt) {
       const getUserInfo = async () => {
         try {
           const {
@@ -124,7 +124,7 @@ const NavBar = () => {
     } else {
       setIsLoaded(true);
     }
-  }, [cookies, userInfo, dispatch]);
+  }, [cookies, dispatch]);
 
   return (
     <>

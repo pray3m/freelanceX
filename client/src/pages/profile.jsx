@@ -102,6 +102,7 @@ function Profile() {
             image: imageName.length ? HOST + "/" + imageName : false,
           },
         });
+        toast.success("Profile updated successfully");
       }
     } catch (err) {
       console.log(err);
