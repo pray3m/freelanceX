@@ -54,3 +54,19 @@ export const confirmOrder = async (req, res, next) => {
     return res.status(500).send("Internal Server Error.");
   }
 };
+
+export const getBuyerOrders = async (req, res, next) => {
+  try {
+    if (req.userId) {
+      const orders = await prisma.order.findMany({
+        where: { buyerId: req.userId, isCompleted: true },
+        include: { gig: true },
+      });
+      return res.status(200).json({ orders });
+    }
+    return res.status(400).send("UserId is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error.");
+  }
+};
