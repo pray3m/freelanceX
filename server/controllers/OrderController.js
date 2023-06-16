@@ -60,7 +60,40 @@ export const getBuyerOrders = async (req, res, next) => {
     if (req.userId) {
       const orders = await prisma.order.findMany({
         where: { buyerId: req.userId, isCompleted: true },
-        include: { gig: true },
+        include: {
+          gig: true,
+          gig: {
+            include: {
+              createdBy: true,
+            },
+          },
+        },
+      });
+      return res.status(200).json({ orders });
+    }
+    return res.status(400).send("UserId is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error.");
+  }
+};
+
+export const getSellerOrders = async (req, res, next) => {
+  try {
+    if (req.userId) {
+      const orders = await prisma.order.findMany({
+        where: {
+          gig: {
+            createdBy: {
+              id: req.userId,
+            },
+          },
+          isCompleted: true,
+        },
+        include: {
+          gig: true,
+          buyer: true,
+        },
       });
       return res.status(200).json({ orders });
     }

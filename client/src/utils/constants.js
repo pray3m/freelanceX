@@ -21,3 +21,4 @@ export const SEARCH_GIGS_ROUTE = `${GIG_ROUTES}/search`;
 export const CREATE_ORDER = `${ORDER_ROUTES}/create`;
 export const ORDER_SUCCESS = `${ORDER_ROUTES}/success`;
 export const GET_BUYER_ORDERS = `${ORDER_ROUTES}/get-buyer-orders`;
+export const GET_SELLER_ORDERS = `${ORDER_ROUTES}/get-seller-orders`;

@@ -107,6 +107,9 @@ const Details = () => {
                     height={120}
                     width={120}
                     className="rounded-full"
+
+
+                    
                   />
                 ) : (
                   <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
