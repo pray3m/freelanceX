@@ -10,31 +10,35 @@ import {
 
 const Footer = () => {
   const socialLinks = [
-    { name: "Github", icon: <FiGithub />, link: "https://www.github.com" },
+    {
+      name: "Github",
+      icon: <FiGithub />,
+      link: "https://www.github.com/pray3m",
+    },
     {
       name: "Youtube",
       icon: <FiYoutube />,
-      link: "https://www.youtube.com/KishanSheth21/",
+      link: "https://www.youtube.com/",
     },
     {
       name: "LinkedIn",
       icon: <FiLinkedin />,
-      link: "https://www.linkedin.com/in/koolkishan/",
+      link: "https://www.linkedin.com/in/pray3m/",
     },
     {
       name: "Instagram",
       icon: <FiInstagram />,
-      link: "https://instagram.com/koolkishansheth",
+      link: "https://instagram.com/pray3m",
     },
     {
       name: "Twitter",
       icon: <FiTwitter />,
-      link: "https://twitter.com/koolkishansheth",
+      link: "https://twitter.com/pray3m_",
     },
   ];
   return (
     <footer className="w-full md:px-20 py-6 md:py-8 h-max border-t border-gray-200 bg-gray-100">
-      <div className="mt-8 flex flex-col-reverse gap-5 md:flex-row md:justify-between ">
+      <div className="mt-2 flex flex-col-reverse gap-5 md:flex-row md:justify-between ">
         <div className="flex items-center justify-center gap-4">
           <span>
             <i className="text-2xl md:text-3xl font-bold">freelance</i>
@@ -53,7 +57,7 @@ const Footer = () => {
           ))}
         </ul>
       </div>
-      <p className="text-center mt-6 font-semibold">
+      <p className="text-center mt-4 font-medium">
         Made With Sleepless Nights! 🌙
       </p>
     </footer>
