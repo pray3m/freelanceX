@@ -19,6 +19,7 @@ model User {
   createdAt DateTime @default(now())
   gigs Gig[]
   orders Order[]
+  reviews Reviews[]
 }
 
 model Gig {
@@ -36,6 +37,7 @@ model Gig {
   createdBy User? @relation(fields: [userId], references: [id])
   userId String @db.ObjectId
   orders Order[]
+  reviews Reviews[]
 }
 
 model Order {
@@ -48,4 +50,15 @@ model Order {
   gig Gig @relation(fields: [gigId], references: [id])
   gigId String @db.ObjectId
   price Int
+}
+
+model Reviews {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  rating Int
+  comment String? 
+  gig Gig @relation(fields: [gigId], references: [id])
+  gigId String @db.ObjectId
+  reviewer User @relation(fields: [reviewerId], references: [id])
+  reviewerId String @db.ObjectId
 }

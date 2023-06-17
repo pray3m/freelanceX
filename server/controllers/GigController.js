@@ -182,3 +182,33 @@ const createSearchQuery = (searchTerm, category) => {
   }
   return query;
 };
+
+const checkOrder = async (userId, gigId) => {
+  try {
+    const hasUserOrderedGig = await prisma.orders.findFirst({
+      where: {
+        buyerId: userId,
+        gigId: gigId,
+        isCompleted: true,
+      },
+    });
+    return hasUserOrderedGig;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const checkGigOrder = async (req, res, next) => {
+  try {
+    if (req.userId && req.params.gigId) {
+      const hasUserOrderedGig = await checkOrder(req.userId, req.params.gigId);
+      return res
+        .status(200)
+        .json({ hasUserOrderedGig: hasUserOrderedGig ? true : false });
+    }
+    return res.status(400).send("userId and gigId is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};
