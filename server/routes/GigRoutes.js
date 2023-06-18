@@ -4,6 +4,7 @@ import {
   getGigById,
   searchGigs,
   updateGig,
+  checkGigOrder,
 } from "../controllers/GigController.js";
 import { verifyToken } from "../middlewares/AuthMiddleware.js";
 import { Router } from "express";
@@ -18,3 +19,4 @@ gigRoutes.get("/", verifyToken, getAllUserGigs);
 gigRoutes.get("/get/:gigId", getGigById);
 gigRoutes.put("/edit/:gigId", verifyToken, upload.array("images"), updateGig);
 gigRoutes.get("/search", searchGigs);
+gigRoutes.get("/check-gig-order/:gigId", verifyToken, checkGigOrder);
