@@ -75,7 +75,7 @@ const index = () => {
                 >
                   <th
                     scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex gap-2 items-center"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     {order.gig.title}
                   </th>
@@ -84,7 +84,7 @@ const index = () => {
                     <span className=" font-medium">💲 {order.gig.price}</span>{" "}
                   </td>
                   <td className="px-6 py-4">{order.gig.deliveryTime} days</td>
-                  <td className="px-6 py-4 place-items-center ">
+                  <td className="px-6 py-4 flex flex-col place-items-center ">
                     <Image
                       src={HOST + "/" + order.gig.createdBy.profileImage}
                       alt={order.gig.createdBy.username}

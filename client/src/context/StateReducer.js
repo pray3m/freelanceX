@@ -6,6 +6,8 @@ export const initialState = {
   userInfo: undefined,
   isSeller: false,
   gigData: undefined,
+  hasOrdered: false,
+  reloadReviews: false,
 };
 
 const reducer = (state, action) => {
@@ -40,6 +42,19 @@ const reducer = (state, action) => {
       return {
         ...state,
         gigData: action.gigData,
+      };
+    case reducerCases.HAS_USER_ORDERED_GIG:
+      return {
+        ...state,
+        hasOrdered: action.hasOrdered,
+      };
+    case reducerCases.ADD_REVIEW:
+      return {
+        ...state,
+        gigData: {
+          ...state.gigData,
+          reviews: [...state.gigData.reviews, action.newReview],
+        },
       };
     default:
       return state;

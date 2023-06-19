@@ -185,7 +185,7 @@ const createSearchQuery = (searchTerm, category) => {
 
 const checkOrder = async (userId, gigId) => {
   try {
-    const hasUserOrderedGig = await prisma.orders.findFirst({
+    const hasUserOrderedGig = await prisma.order.findFirst({
       where: {
         buyerId: userId,
         gigId: gigId,

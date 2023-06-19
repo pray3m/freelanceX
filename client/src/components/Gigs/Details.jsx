@@ -3,6 +3,8 @@ import { useStateProvider } from "../../context/StateContext";
 import { HOST } from "../../utils/constants";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import Reviews from "./Reviews";
+import AddReview from "./AddReview";
 
 const Details = () => {
   const [{ gigData, hasOrdered }] = useStateProvider();
@@ -107,9 +109,6 @@ const Details = () => {
                     height={120}
                     width={120}
                     className="rounded-full"
-
-
-                    
                   />
                 ) : (
                   <div className="bg-purple-500 h-10 w-10 flex items-center justify-center rounded-full relative">
@@ -141,6 +140,8 @@ const Details = () => {
               </div>
             </div>
           </div>
+          <Reviews />
+          {hasOrdered && <AddReview />}
         </div>
       )}
     </>
