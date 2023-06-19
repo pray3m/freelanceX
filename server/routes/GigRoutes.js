@@ -4,6 +4,7 @@ import {
   getGigById,
   searchGigs,
   updateGig,
+  addReview,
   checkGigOrder,
 } from "../controllers/GigController.js";
 import { verifyToken } from "../middlewares/AuthMiddleware.js";
@@ -20,3 +21,4 @@ gigRoutes.get("/get/:gigId", getGigById);
 gigRoutes.put("/edit/:gigId", verifyToken, upload.array("images"), updateGig);
 gigRoutes.get("/search", searchGigs);
 gigRoutes.get("/check-gig-order/:gigId", verifyToken, checkGigOrder);
+gigRoutes.post("/review/:gigId", verifyToken, addReview);
