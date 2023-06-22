@@ -1,5 +1,6 @@
 import prisma from "../prisma/client.js";
-import { Prisma } from "@prisma/client";
+import pkg from "@prisma/client";
+const Prisma = pkg.Prisma;
 import { compare, genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { renameSync } from "fs";
