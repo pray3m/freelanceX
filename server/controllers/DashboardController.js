@@ -1,12 +1,12 @@
-import prisma from "../prisma/client";
+import prisma from "../prisma/client.js";
 
 export const getSellerData = async (req, res, next) => {
   try {
     if (req.userId) {
-      const gigs = await prisma.gigs.count({ where: { userId: req.userId } });
+      const gigs = await prisma.gig.count({ where: { userId: req.userId } });
       const {
         _count: { id: orders },
-      } = await prisma.orders.aggregate({
+      } = await prisma.order.aggregate({
         where: {
           isCompleted: true,
           gig: {
@@ -32,7 +32,7 @@ export const getSellerData = async (req, res, next) => {
 
       const {
         _sum: { price: revenue },
-      } = await prisma.orders.aggregate({
+      } = await prisma.order.aggregate({
         where: {
           gig: {
             createdBy: {
@@ -51,7 +51,7 @@ export const getSellerData = async (req, res, next) => {
 
       const {
         _sum: { price: dailyRevenue },
-      } = await prisma.orders.aggregate({
+      } = await prisma.order.aggregate({
         where: {
           gig: {
             createdBy: {
@@ -70,7 +70,7 @@ export const getSellerData = async (req, res, next) => {
 
       const {
         _sum: { price: monthlyRevenue },
-      } = await prisma.orders.aggregate({
+      } = await prisma.order.aggregate({
         where: {
           gig: {
             createdBy: {
@@ -90,7 +90,7 @@ export const getSellerData = async (req, res, next) => {
         dashboardData: {
           orders,
           gigs,
-          unreadMessages,
+          // unreadMessages,
           dailyRevenue,
           monthlyRevenue,
           revenue,

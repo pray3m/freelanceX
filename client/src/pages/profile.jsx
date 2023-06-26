@@ -103,6 +103,7 @@ function Profile() {
           },
         });
         toast.success("Profile updated successfully");
+        router.push("/");
       }
     } catch (err) {
       console.log(err);
