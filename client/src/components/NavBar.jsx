@@ -9,6 +9,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { GET_USER_INFO, HOST } from "../utils/constants";
 import { toast } from "react-toastify";
+import ContextMenu from "./ContextMenu";
 
 const NavBar = () => {
   const handleLogin = () => {
@@ -126,6 +127,42 @@ const NavBar = () => {
     }
   }, [cookies, dispatch]);
 
+  const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
+  useEffect(() => {
+    const clickListener = (e) => {
+      e.stopPropagation();
+
+      if (isContextMenuVisible) setIsContextMenuVisible(false);
+    };
+    if (isContextMenuVisible) {
+      window.addEventListener("click", clickListener);
+    }
+    return () => {
+      window.removeEventListener("click", clickListener);
+    };
+  }, [isContextMenuVisible]);
+
+  const ContextMenuData = [
+    {
+      name: "Profile",
+      callback: (e) => {
+        e.stopPropagation();
+
+        setIsContextMenuVisible(false);
+        router.push("/profile");
+      },
+    },
+    {
+      name: "Logout",
+      callback: (e) => {
+        e.stopPropagation();
+
+        setIsContextMenuVisible(false);
+        router.push("/logout");
+      },
+    },
+  ];
+
   return (
     <>
       {isLoaded && (
@@ -238,7 +275,7 @@ const NavBar = () => {
                 className="cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
-                  // setIsContextMenuVisible(true);
+                  setIsContextMenuVisible(true);
                 }}
                 title="Profile"
               >
@@ -262,6 +299,7 @@ const NavBar = () => {
               </li>
             </ul>
           )}
+          {isContextMenuVisible && <ContextMenu data={ContextMenuData} />}
         </nav>
       )}
     </>
