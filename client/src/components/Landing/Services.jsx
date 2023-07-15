@@ -1,6 +1,7 @@
 import React from "react";
 import { categories } from "../../utils/categories";
 import Image from "next/image";
+import router from "next/router";
 
 const Services = () => {
   return (
@@ -13,6 +14,9 @@ const Services = () => {
           <li
             key={name}
             className="flex flex-col justify-center items-center cursor-pointer hover:shadow-2xl hover:border-[#1DBF73] border-2 border-transparent p-5 transition-all duration-500 rounded-lg"
+            onClick={() =>
+              router.push(`/search?category=${name.toLowerCase()}`)
+            }
           >
             <Image src={logo} alt="category" height={50} width={50} />
             <span>{name}</span>

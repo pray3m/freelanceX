@@ -37,7 +37,7 @@ const Everything = () => {
             return (
               <li key={title}>
                 <div className="flex gap-2 items-center text-xl">
-                  <BsCheckCircle className="text-[#62646a]" />
+                  <BsCheckCircle className="text-green-500 " />
                   <h4>{title}</h4>
                 </div>
                 <p className="text-[#62646a]">{subtitle}</p>
@@ -46,8 +46,13 @@ const Everything = () => {
           })}
         </ul>
       </div>
-      <div className="relative h-96 md:w-2/4 mt-8">
-        <Image src="/everything.webp" fill alt="everything" />
+      <div className="relative h-96 md:w-2/4 mt-8 ">
+        <Image
+          src="/everything.jpg"
+          fill
+          alt="everything"
+          className="rounded-md shadow-md"
+        />
       </div>
     </div>
   );

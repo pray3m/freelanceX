@@ -58,7 +58,7 @@ const HeroBanner = () => {
         ))}
       </div>
 
-      <div className="z-10 relative md:w-[650px] flex justify-center flex-col h-full gap-8 md:gap-5 md:ml-20 mx-6">
+      <div className="z-10 relative md:w-1/2 flex justify-center flex-col h-full gap-8 md:gap-5 md:ml-20 mx-6">
         <h1 className="font-macan text-white font-semibold text-4xl md:text-5xl leading-snug ">
           Find the perfect &nbsp;
           <i>freelance</i>
