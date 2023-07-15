@@ -6,7 +6,7 @@ const nextConfig = {
       {
         protocol: process.env.NODE_ENV === "production" ? "https" : "http",
         hostname: process.env.NODE_ENV === "production" ? "**" : "localhost",
-        port: process.env.NODE_ENV === "production" ? "" : "8000",
+        port: process.env.NODE_ENV === "production" ? "" : "5000",
         pathname: "**",
       },
     ],
