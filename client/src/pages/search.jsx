@@ -3,11 +3,13 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import SearchGridItem from "../components/search/SearchGridItem";
+import Loading from "../utils/Loading";
 
 const search = () => {
   const router = useRouter();
   const { category, q } = router.query;
   const [gigs, setGigs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
@@ -17,6 +19,7 @@ const search = () => {
         );
         console.log(data);
         setGigs(data.gigs);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -25,11 +28,23 @@ const search = () => {
     if (category || q) getData();
   }, [category, q]);
 
+  if (loading)
+    return (
+      <div className="flex items-center justify-center text-5xl min-h-[76vh]">
+        <Loading />
+      </div>
+    );
+
   return (
     <div className="mx-24 mb-24">
       {q && (
         <h3 className="text-4xl mb-10">
           Results for <b>{q}</b>
+        </h3>
+      )}
+      {category && (
+        <h3 className="text-4xl mb-10">
+          Results for <b>{category}</b>
         </h3>
       )}
       <div className="flex gap-4">
