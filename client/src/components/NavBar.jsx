@@ -193,7 +193,7 @@ const NavBar = () => {
           >
             <input
               type="text"
-              className="w-[30rem] py-2.5 px-4 border "
+              className="w-[30rem] py-2.5 px-4"
               value={searchData}
               onChange={(e) => setSearchData(e.target.value)}
               placeholder="What service are you looking for today?"
