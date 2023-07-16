@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }) {
         <link rel="shortcut icon" href="/favicon.ico" />
         <title>freelanceX</title>
       </Head>
-      <NextNProgress />
+      <NextNProgress stopDelayMs="20" />
       <ToastContainer />
       <div className="relative flex flex-col h-screen justify-between">
         <NavBar />

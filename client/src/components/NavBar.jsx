@@ -216,7 +216,7 @@ const NavBar = () => {
                     key={linkName}
                     className={`${
                       navFixed ? "text-black " : "text-white"
-                    } font-medium `}
+                    } font-medium hover:text-[#2ae68e] transition-all duration-300 `}
                   >
                     {type === "link" && <Link href={handler}> {linkName}</Link>}
                     {type === "button" && (
@@ -225,7 +225,7 @@ const NavBar = () => {
                     {type === "button2" && (
                       <button
                         onClick={handler}
-                        className={`border text-md font-semibold py-1 px-3 rounded-sm ${
+                        className={`border text-md font-semibold py-1 px-6 rounded-sm ${
                           navFixed
                             ? "border-[#1DBF73] text-[#1DBF73]"
                             : "border-white text-white"

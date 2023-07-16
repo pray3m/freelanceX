@@ -13,6 +13,7 @@
     "@stripe/stripe-js": "^1.54.0",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "framer-motion": "^10.12.21",
     "next": "13.4.2",
     "nextjs-progressbar": "^0.0.16",
     "postcss": "8.4.23",

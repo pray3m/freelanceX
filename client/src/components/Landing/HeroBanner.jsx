@@ -2,14 +2,15 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
+import AnimatedText from "../../utils/AnimatedText";
 
 const images = [
-  "/bg-hero1.webp",
-  "/bg-hero2.webp",
-  "/bg-hero3.webp",
-  "/bg-hero4.webp",
-  "/bg-hero5.webp",
-  "/bg-hero6.webp",
+  "/bg-herof.png",
+  "/bg-hero2.png",
+  "/bg-hero3.png",
+  // "/bg-hero4.png",
+  "/bg-hero5.png",
+  "/bg-hero6.png",
 ];
 
 const popularSearchTerms = [
@@ -26,8 +27,8 @@ const HeroBanner = () => {
 
   useEffect(() => {
     const interval = setInterval(
-      () => setImage(image >= 5 ? 1 : image + 1),
-      7000
+      () => setImage(image >= 4 ? 0 : image + 1),
+      4000
     );
     return () => clearInterval(interval);
   }, [image]);
@@ -44,7 +45,7 @@ const HeroBanner = () => {
 
   return (
     <div className="h-[460px] bg-black md:h-[680px] relative bg-cover">
-      <div className="hidden  md:block absolute top-0 right-0 w-[110vw] h-full transition-opacity z-0">
+      <div className="hidden  md:block absolute top-0 right-0 w-full h-full transition-opacity z-0">
         {images.map((img, index) => (
           <Image
             key={index}
@@ -60,10 +61,10 @@ const HeroBanner = () => {
 
       <div className="z-10 relative md:w-1/2 flex justify-center flex-col h-full gap-8 md:gap-5 md:ml-20 mx-6">
         <h1 className="font-macan text-white font-semibold text-4xl md:text-5xl leading-snug ">
-          Find the perfect &nbsp;
-          <i>freelance</i>
-          <br />
-          <i>services</i> for your business
+          <AnimatedText
+            text="Find the perfect freelancer services for your business."
+            className="flex flex-wrap pr-0 md:pr-20"
+          />
         </h1>
 
         <div className="flex flex-col md:flex-row md:align-middle gap-4 md:gap-0">
