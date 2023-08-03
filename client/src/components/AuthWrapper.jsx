@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { FcGoogle } from "react-icons/fc";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { MdFacebook } from "react-icons/md";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
@@ -39,12 +40,15 @@ const AuthWrapper = ({ type }) => {
       if (user) {
         dispatch({ type: reducerCases.SET_USER, userInfo: user });
         toast.success("Login/Signup successful!");
-        // window.location.reload();
       }
     } catch (err) {
       console.log(err);
       toast.error("An error occurred.");
     }
+  };
+
+  const handleCloseAuth = () => {
+    dispatch({ type: reducerCases.CLOSE_AUTH_MODAL });
   };
 
   return (
@@ -55,27 +59,16 @@ const AuthWrapper = ({ type }) => {
           className="fixed z-[101] h-max w-max bg-white rounded-lg shadow-lg flex flex-col justify-center items-center"
           id="auth-modal"
         >
+          <AiFillCloseCircle
+            className="h-6 w-6 text-gray-700 hover:text-gray-900 absolute top-2 right-2"
+            onClick={handleCloseAuth}
+          />
           <div className="flex flex-col justify-center items-center p-8 gap-7">
             <h3 className="text-2xl font-semibold text-slate-700">
               {type === "login"
                 ? "Nice to see you again ! "
                 : "Start your journey with us!"}
             </h3>
-            <div className="flex flex-col gap-5">
-              <button className="text-white bg-blue-500 p-3 font-semibold w-80 flex items-center justify-center relative">
-                <MdFacebook className="absolute left-4 text-2xl" />
-                Continue with Facebook
-              </button>
-              <button className="border border-slate-300 p-3 font-medium w-80 flex items-center justify-center relative">
-                <FcGoogle className="absolute left-4 text-2xl" />
-                Continue with Google
-              </button>
-            </div>
-            <div className="relative  w-full text-center">
-              <span className="before:content-[''] before:h-[0.5px] before:w-80 before:absolute before:top-[50%] before:left-0 before:bg-slate-400">
-                <span className="bg-white relative z-10 px-2">OR</span>
-              </span>
-            </div>
 
             <div className="flex flex-col gap-5">
               <input
@@ -115,6 +108,23 @@ const AuthWrapper = ({ type }) => {
               >
                 Continue
               </button>
+
+              <div className="relative  w-full text-center">
+                <span className="before:content-[''] before:h-[0.5px] before:w-80 before:absolute before:top-[50%] before:left-0 before:bg-slate-400">
+                  <span className="bg-white relative z-10 px-2">OR</span>
+                </span>
+              </div>
+
+              <div className="flex flex-col gap-5">
+                {/* <button className="text-white bg-blue-500 p-3 font-semibold w-80 flex items-center justify-center relative">
+                <MdFacebook className="absolute left-4 text-2xl" />
+                Continue with Facebook
+              </button> */}
+                <button className="border border-slate-300 p-3 font-medium w-80 flex items-center justify-center relative">
+                  <FcGoogle className="absolute left-4 text-2xl" />
+                  Continue with Google
+                </button>
+              </div>
             </div>
           </div>
           <div className="py-5 w-full flex items-center justify-center border-t border-slate-400">
