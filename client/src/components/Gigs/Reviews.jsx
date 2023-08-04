@@ -24,7 +24,7 @@ const Reviews = () => {
         <div className="mb-10">
           <h3 className="text-2xl my-5 font-normal text-[#404145]">Reviews</h3>
           <div className="flex gap-3 mb-5">
-            <h5>{gigData.reviews.length} reviews for this gig</h5>
+            <h5>{gigData?.reviews?.length} reviews for this gig</h5>
             <div className="flex text-yellow items-center gap-2">
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -45,7 +45,7 @@ const Reviews = () => {
           </div>
 
           <div className="flex flex-col gap-6">
-            {gigData.reviews.map((review) => (
+            {gigData?.reviews?.map((review) => (
               <div className="flex gap-3 border-t pt-6" key={review.id}>
                 <div>
                   {review.reviewer.profileImage ? (
@@ -80,10 +80,10 @@ const Reviews = () => {
                       ))}
                     </div>
                     <span className="text-yellow-700 font-medium">
-                      {review.rating}
+                      {review?.rating}
                     </span>
                   </div>
-                  <p className="text-[#404145] pr-20">{review.comment}</p>
+                  <p className="text-[#404145] pr-20">{review?.comment}</p>
                 </div>
               </div>
             ))}

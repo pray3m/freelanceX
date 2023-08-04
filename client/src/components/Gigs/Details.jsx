@@ -61,8 +61,10 @@ const Details = () => {
                   />
                 ))}
               </div>
-              <span className="text-yellow-500">{gigData.averageRating}</span>
-              <span className="text-[#27272a]">({gigData.reviews.length})</span>
+              <span className="text-yellow-500">{gigData?.averageRating}</span>
+              <span className="text-[#27272a]">
+                ({gigData?.totalReviews} Reviews)
+              </span>
             </div>
           </div>
 

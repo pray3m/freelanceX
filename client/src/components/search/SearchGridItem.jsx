@@ -6,7 +6,17 @@ import { FaStar } from "react-icons/fa";
 
 const SearchGridItem = ({ gig }) => {
   const router = useRouter();
-  const calculateRatings = () => {};
+  const calculateRatings = () => {
+    const { reviews } = gig;
+    let rating = 0;
+    if (!reviews?.length) {
+      return 0;
+    }
+    reviews?.forEach((review) => {
+      rating += review.rating;
+    });
+    return (rating / reviews.length).toFixed(1);
+  };
 
   return (
     <div
@@ -51,7 +61,7 @@ const SearchGridItem = ({ gig }) => {
         <span>
           <strong className="font-medium">{calculateRatings()}</strong>
         </span>
-        <span className="text-[#74767e]">gig.reviews.length</span>
+        <span className="text-[#74767e]">({gig?.reviews?.length} Reviews)</span>
       </div>
       <div>
         <strong className="font-medium">From ${gig.price}</strong>

@@ -183,6 +183,7 @@ export const searchGigs = async (req, res, next) => {
       const gigs = await prisma.gig.findMany(
         createSearchQuery(searchTerm, category)
       );
+
       return res.status(200).json({ gigs });
     }
     return res.status(400).send("SearchTerm or Category is required.");
@@ -199,6 +200,11 @@ const createSearchQuery = (searchTerm, category) => {
     },
     include: {
       createdBy: true,
+      reviews: {
+        include: {
+          reviewer: true,
+        },
+      },
     },
   };
   if (searchTerm) {
