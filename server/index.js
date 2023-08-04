@@ -7,6 +7,7 @@ import prisma from "./prisma/client.js";
 import { gigRoutes } from "./routes/GigRoutes.js";
 import { orderRoutes } from "./routes/OrderRoutes.js";
 import { dashboardRoutes } from "./routes/DashboardRoutes.js";
+import { messageRoutes } from "./routes/MessagesRoutes.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening at url: http://localhost:${port}`);
