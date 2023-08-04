@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStateProvider } from "../../context/StateContext";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
@@ -10,11 +10,13 @@ import axios from "axios";
 import Details from "../../components/Gigs/Details";
 import Pricing from "../../components/Gigs/Pricing";
 import { reducerCases } from "../../context/constants";
+import Loading from "../../utils/Loading";
 
 const GigInfo = () => {
   const router = useRouter();
   const { gigId } = router.query;
   const [cookies] = useCookies();
+  const [loading, setLoading] = useState(true);
 
   const [{ userInfo }, dispatch] = useStateProvider();
 
@@ -28,6 +30,8 @@ const GigInfo = () => {
         // console.log({ gig });
       } catch (er) {
         console.log(er);
+      } finally {
+        setLoading(false);
       }
     };
     if (gigId) fetchGigInfo();
@@ -50,6 +54,13 @@ const GigInfo = () => {
     };
     if (userInfo) hasOrdered();
   }, [dispatch, gigId, userInfo]);
+
+  if (loading)
+    return (
+      <div className="flex items-center justify-center text-5xl min-h-[76vh]">
+        <Loading />
+      </div>
+    );
 
   return (
     <div className="grid grid-cols-3 mx-32 gap-20">
