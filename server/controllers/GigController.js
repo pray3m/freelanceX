@@ -79,7 +79,33 @@ export const getGigById = async (req, res, next) => {
           },
         },
       });
-      return res.status(200).json({ gig });
+
+      const userWithGigs = await prisma.user.findUnique({
+        where: { id: gig.createdBy.id },
+        include: { gigs: { include: { reviews: true } } },
+      });
+
+      const gigs = userWithGigs?.gigs || [];
+      const totalReviews = gigs.reduce(
+        (acc, gig) => acc + (gig.reviews?.length || 0),
+        0
+      );
+
+      const averageRating =
+        totalReviews > 0
+          ? (
+              gigs.reduce(
+                (acc, gig) =>
+                  acc +
+                  gig.reviews.reduce((sum, review) => sum + review.rating, 0),
+                0
+              ) / totalReviews
+            ).toFixed(1)
+          : "N/A";
+
+      return res
+        .status(200)
+        .json({ gig: { ...gig, totalReviews, averageRating } });
     }
     return res.status(400).send("GigId is required.");
   } catch (err) {

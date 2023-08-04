@@ -1,10 +1,9 @@
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "../utils/constants";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { FcGoogle } from "react-icons/fc";
-import { AiFillCloseCircle } from "react-icons/ai";
-import { MdFacebook } from "react-icons/md";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 import { toast } from "react-toastify";
@@ -59,7 +58,7 @@ const AuthWrapper = ({ type }) => {
           className="fixed z-[101] h-max w-max bg-white rounded-lg shadow-lg flex flex-col justify-center items-center"
           id="auth-modal"
         >
-          <AiFillCloseCircle
+          <AiOutlineCloseCircle
             className="h-6 w-6 text-gray-700 hover:text-gray-900 absolute top-2 right-2"
             onClick={handleCloseAuth}
           />

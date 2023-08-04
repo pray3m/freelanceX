@@ -14,6 +14,8 @@ const Details = () => {
     if (gigData) setCurrentImage(gigData.images[0]);
   }, [gigData]);
 
+  console.log(gigData);
+
   return (
     <>
       {gigData && currentImage != "" && (
@@ -49,11 +51,18 @@ const Details = () => {
             <div className="flex items-center gap-1">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <FaStar key={star} className={`cursor-pointer `} />
+                  <FaStar
+                    key={star}
+                    className={`cursor-pointer ${
+                      Math.ceil(gigData.averageRating) >= star
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                    } `}
+                  />
                 ))}
               </div>
-              <span className="text-yellow-500">averageRatings</span>
-              <span className="text-[#27272a]">(gigData.reviews.length)</span>
+              <span className="text-yellow-500">{gigData.averageRating}</span>
+              <span className="text-[#27272a]">({gigData.reviews.length})</span>
             </div>
           </div>
 
@@ -133,9 +142,25 @@ const Details = () => {
                 <div className="flex items-center gap-1">
                   <div className="flex text-yellow-500">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <FaStar key={star} className={`cursor-pointer `} />
+                      <FaStar
+                        key={star}
+                        className={`cursor-pointer 
+                      ${
+                        Math.ceil(gigData.averageRating) >= star
+                          ? "text-yello-400"
+                          : "text-gray-300"
+                      }
+                      `}
+                      />
                     ))}
                   </div>
+
+                  <span className="text-yellow-500">
+                    {gigData?.averageRating}
+                  </span>
+                  <span className="text-[#74767e]">
+                    ({gigData?.totalReviews})
+                  </span>
                 </div>
               </div>
             </div>
