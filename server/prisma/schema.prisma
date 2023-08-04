@@ -8,57 +8,73 @@ datasource db {
 }
 
 model User {
- id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  username  String?  @unique
-  fullName  String?
-  description String?
-  profileImage String?
-  isProfileInfoSet Boolean? @default(false)
-  createdAt DateTime @default(now())
-  gigs Gig[]
-  orders Order[]
-  reviews Reviews[]
+  id               String     @id @default(auto()) @map("_id") @db.ObjectId
+  email            String     @unique
+  password         String
+  username         String?    @unique
+  fullName         String?
+  description      String?
+  profileImage     String?
+  isProfileInfoSet Boolean?   @default(false)
+  createdAt        DateTime   @default(now())
+  gigs             Gig[]
+  orders           Order[]
+  reviews          Reviews[]
+  messagesSent     Messages[] @relation("sentMessages")
+  messagesReceived Messages[] @relation("receivedMessages")
 }
 
 model Gig {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String
-  category String
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  category     String
   deliveryTime Int
-  revisions Int
-  features String[]
-  price Float
-  shortDesc String
-  createdAt DateTime @default(now())
-  images String[]
-  createdBy User? @relation(fields: [userId], references: [id])
-  userId String @db.ObjectId
-  orders Order[]
-  reviews Reviews[]
+  revisions    Int
+  features     String[]
+  price        Float
+  shortDesc    String
+  createdAt    DateTime  @default(now())
+  images       String[]
+  createdBy    User?     @relation(fields: [userId], references: [id])
+  userId       String    @db.ObjectId
+  orders       Order[]
+  reviews      Reviews[]
 }
 
 model Order {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  buyer User @relation(fields: [buyerId], references: [id])
-  buyerId String @db.ObjectId
-  paymentIntent String @unique
-  isCompleted Boolean @default(false)
-  gig Gig @relation(fields: [gigId], references: [id])
-  gigId String @db.ObjectId
-  price Int
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime   @default(now())
+  buyer         User       @relation(fields: [buyerId], references: [id])
+  buyerId       String     @db.ObjectId
+  paymentIntent String     @unique
+  isCompleted   Boolean    @default(false)
+  gig           Gig        @relation(fields: [gigId], references: [id])
+  gigId         String     @db.ObjectId
+  price         Int
+  messages      Messages[]
 }
 
 model Reviews {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  rating Int
-  comment String? 
-  gig Gig @relation(fields: [gigId], references: [id])
-  gigId String @db.ObjectId
-  reviewer User @relation(fields: [reviewerId], references: [id])
-  reviewerId String @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  rating     Int
+  comment    String?
+  gig        Gig      @relation(fields: [gigId], references: [id])
+  gigId      String   @db.ObjectId
+  reviewer   User     @relation(fields: [reviewerId], references: [id])
+  reviewerId String   @db.ObjectId
+}
+
+model Messages {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  text       String
+  createdAt  DateTime @default(now())
+  isRead     Boolean  @default(false)
+  sender     User     @relation("sentMessages", fields: [senderId], references: [id])
+  senderId   String   @db.ObjectId
+  receiver   User     @relation("receivedMessages", fields: [receiverId], references: [id])
+  receiverId String   @db.ObjectId
+  order      Order    @relation(fields: [orderId], references: [id])
+  orderId    String   @db.ObjectId
 }
