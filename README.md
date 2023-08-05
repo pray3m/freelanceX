@@ -6,14 +6,13 @@ freelanceX is a Freelance Marketplace web application developed as a 4th-semeste
 ## Features
 
 - User Authentication
-- Freelancer Profiles
-- Project Listings
-- Bidding System
+- User Profiles
+- Gig Listings
 - Real-time Communication
-- Payment Integration
+- Payment Integration (Stripe)
 - Ratings and Reviews
 - Search and Filters
-- Admin Panel
+- Seller Dashboard
 
 ## Tech Stack
 
