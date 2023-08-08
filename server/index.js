@@ -14,12 +14,6 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Prisma connection to MongoDB
-prisma
-  .$connect()
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Failed to connect to MongoDB", error));
-
 app.use(
   cors({
     origin: [process.env.PUBLIC_URL],
@@ -27,6 +21,20 @@ app.use(
     credentials: true,
   })
 );
+
+// Prisma connection to MongoDB
+prisma
+  .$connect()
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("Failed to connect to MongoDB", error));
+
+app.get("/", (req, res) => {
+  res.send(" 🚀 FreelanceX API Playground!🤖 ");
+});
+
+app.get("/ping", (req, res) => {
+  res.send("pong 🏓");
+});
 
 app.use("/uploads/profiles", express.static("uploads/profiles"));
 app.use("/uploads", express.static("uploads"));
