@@ -69,3 +69,42 @@ export const getMessages = async (req, res, next) => {
     return res.status(500).send("Internal Server Error");
   }
 };
+
+export const getUnreadMessages = async (req, res, next) => {
+  try {
+    if (req.userId) {
+      const prisma = new PrismaClient();
+      const messages = await prisma.message.findMany({
+        where: {
+          recipientId: req.userId,
+          isRead: false,
+        },
+        include: {
+          sender: true,
+        },
+      });
+      return res.status(200).json({ messages });
+    }
+    return res.status(400).send("User id is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+export const markAsRead = async (req, res, next) => {
+  try {
+    if (req.userId && req.params.messageId) {
+      const prisma = new PrismaClient();
+      await prisma.message.update({
+        where: { id: parseInt(req.params.messageId) },
+        data: { isRead: true },
+      });
+      return res.status(200).send("Message mark as read.");
+    }
+    return res.status(400).send("User id and message Id is required.");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send("Internal Server Error");
+  }
+};

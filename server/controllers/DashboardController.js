@@ -19,12 +19,12 @@ export const getSellerData = async (req, res, next) => {
           id: true,
         },
       });
-      //   const unreadMessages = await prisma.message.count({
-      //     where: {
-      //       recipientId: req.userId,
-      //       isRead: false,
-      //     },
-      //   });
+      const unreadMessages = await prisma.message.count({
+        where: {
+          recipientId: req.userId,
+          isRead: false,
+        },
+      });
 
       const today = new Date();
       const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
