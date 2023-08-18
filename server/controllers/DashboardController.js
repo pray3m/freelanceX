@@ -19,9 +19,9 @@ export const getSellerData = async (req, res, next) => {
           id: true,
         },
       });
-      const unreadMessages = await prisma.message.count({
+      const unreadMessages = await prisma.messages.count({
         where: {
-          recipientId: req.userId,
+          receiverId: req.userId,
           isRead: false,
         },
       });
@@ -90,7 +90,7 @@ export const getSellerData = async (req, res, next) => {
         dashboardData: {
           orders,
           gigs,
-          // unreadMessages,
+          unreadMessages,
           dailyRevenue,
           monthlyRevenue,
           revenue,

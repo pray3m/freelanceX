@@ -94,7 +94,7 @@ function Index() {
               >
                 <h2 className="text-xl"> Unread Messages</h2>
                 <h3 className="text-[#1DBF73] text-3xl font-extrabold">
-                  {/* {dashboardData?.unreadMessages} */} 0
+                  {dashboardData?.unreadMessages}
                 </h3>
               </div>
 

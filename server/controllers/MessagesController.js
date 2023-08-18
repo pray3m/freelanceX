@@ -73,10 +73,9 @@ export const getMessages = async (req, res, next) => {
 export const getUnreadMessages = async (req, res, next) => {
   try {
     if (req.userId) {
-      const prisma = new PrismaClient();
-      const messages = await prisma.message.findMany({
+      const messages = await prisma.messages.findMany({
         where: {
-          recipientId: req.userId,
+          receiverId: req.userId,
           isRead: false,
         },
         include: {
@@ -95,8 +94,7 @@ export const getUnreadMessages = async (req, res, next) => {
 export const markAsRead = async (req, res, next) => {
   try {
     if (req.userId && req.params.messageId) {
-      const prisma = new PrismaClient();
-      await prisma.message.update({
+      await prisma.messages.update({
         where: { id: parseInt(req.params.messageId) },
         data: { isRead: true },
       });

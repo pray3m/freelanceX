@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import SearchGridItem from "../components/search/SearchGridItem";
-import Loading from "../utils/Loading";
+import { MagnifyingGlass } from "react-loader-spinner";
 
 const search = () => {
   const router = useRouter();
@@ -31,7 +31,16 @@ const search = () => {
   if (loading)
     return (
       <div className="flex items-center justify-center text-5xl min-h-[76vh]">
-        <Loading />
+        <MagnifyingGlass
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="MagnifyingGlass-loading"
+          wrapperStyle={{}}
+          wrapperClass="MagnifyingGlass-wrapper"
+          glassColor="#c0efff"
+          color="#e15b64"
+        />
       </div>
     );
 

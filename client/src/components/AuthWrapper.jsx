@@ -7,9 +7,11 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
 import { toast } from "react-toastify";
+import { ThreeDots } from "react-loader-spinner";
 
 const AuthWrapper = ({ type }) => {
   const [cookies, setCookies] = useCookies();
+  const [loading, setLoading] = useState(false);
 
   const [{ showLoginModal, showSignupModel }, dispatch] = useStateProvider();
   const [values, setValues] = useState({ email: "", password: "" });
@@ -21,6 +23,7 @@ const AuthWrapper = ({ type }) => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { email, password } = values;
       if (!email || !password) {
         toast.error("Please fill all the fields.");
@@ -40,9 +43,11 @@ const AuthWrapper = ({ type }) => {
         dispatch({ type: reducerCases.SET_USER, userInfo: user });
         toast.success("Login/Signup successful!");
       }
+      setLoading(false);
     } catch (err) {
       console.log(err);
       toast.error("An error occurred.");
+      setLoading(false);
     }
   };
 
@@ -101,11 +106,23 @@ const AuthWrapper = ({ type }) => {
               )}
 
               <button
-                className="bg-[#1DBF73] text-white px-12 text-lg font-semibold rounded-r-md p-3 w-80"
+                className="bg-[#1DBF73] text-white px-12 text-lg text-center font-semibold rounded-r-md p-3 w-80 flex justify-center items-center"
                 onClick={handleClick}
                 type="button"
               >
-                Continue
+                {loading ? (
+                  <ThreeDots
+                    height={28}
+                    width={50}
+                    color="#ffffff"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClassName=""
+                    visible={true}
+                  />
+                ) : (
+                  "Continue"
+                )}
               </button>
 
               <div className="relative  w-full text-center">

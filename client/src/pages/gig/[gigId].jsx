@@ -10,7 +10,7 @@ import axios from "axios";
 import Details from "../../components/Gigs/Details";
 import Pricing from "../../components/Gigs/Pricing";
 import { reducerCases } from "../../context/constants";
-import Loading from "../../utils/Loading";
+import { ProgressBar } from "react-loader-spinner";
 
 const GigInfo = () => {
   const router = useRouter();
@@ -58,7 +58,15 @@ const GigInfo = () => {
   if (loading)
     return (
       <div className="flex items-center justify-center text-5xl min-h-[76vh]">
-        <Loading />
+        <ProgressBar
+          height="80"
+          width="80"
+          ariaLabel="progress-bar-loading"
+          wrapperStyle={{}}
+          wrapperClass="progress-bar-wrapper"
+          borderColor="#F4442E"
+          barColor="#51E5FF"
+        />
       </div>
     );
 

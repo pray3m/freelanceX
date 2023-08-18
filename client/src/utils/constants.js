@@ -29,5 +29,7 @@ export const GET_SELLER_ORDERS = `${ORDER_ROUTES}/get-seller-orders`;
 
 export const GET_MESSAGES = `${MESSAGE_ROUTES}/get-messages`;
 export const SEND_MESSAGE = `${MESSAGE_ROUTES}/send-message`;
+export const GET_UNREAD_MESSAGES = `${MESSAGE_ROUTES}/unread-messages`;
+export const MARK_AS_READ_ROUTE = `${MESSAGE_ROUTES}/mark-as-read`;
 
 export const GET_SELLER_DATA = `${DASHBOARD_DATA_ROUTES}/seller`;

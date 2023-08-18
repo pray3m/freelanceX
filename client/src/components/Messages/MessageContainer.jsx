@@ -2,9 +2,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { FaRegPaperPlane } from "react-icons/fa";
+import { BsCheckAll } from "react-icons/bs";
 import { useStateProvider } from "../../context/StateContext";
 import { useEffect, useState } from "react";
 import { GET_MESSAGES, SEND_MESSAGE } from "../../utils/constants";
+import { Comment } from "react-loader-spinner";
 
 const MessageContainer = () => {
   const [cookies] = useCookies();
@@ -14,10 +16,12 @@ const MessageContainer = () => {
   const [receiverId, setReceiverId] = useState(undefined);
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const getMessages = async () => {
       try {
+        setLoading(true);
         const { data } = await axios.get(`${GET_MESSAGES}/${orderId}`, {
           headers: {
             Authorization: `Bearer ${cookies.jwt}`,
@@ -25,8 +29,10 @@ const MessageContainer = () => {
         });
         setMessages(data.messages);
         setReceiverId(data.receiverId);
+        setLoading(false);
       } catch (err) {
         console.log(err);
+        setLoading(false);
       }
     };
 
@@ -74,6 +80,21 @@ const MessageContainer = () => {
         <div className="bg-white py-8 px-4 shadow-2xl sm:rounded-lg sm:px-10 w-[80vw] border flex flex-col">
           <div className="mt-8">
             <div className="space-y-4 h-[50vh] overflow-y-auto pr-4 ">
+              {isLoading && (
+                <div className="flex justify-center items-center ">
+                  <Comment
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="comment-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="comment-wrapper"
+                    color="#fff"
+                    backgroundColor="#F4442E"
+                  />
+                </div>
+              )}
+
               {messages.map((message) => (
                 <div
                   key={message.id}
