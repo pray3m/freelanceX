@@ -27,6 +27,16 @@ const AuthWrapper = ({ type }) => {
       const { email, password } = values;
       if (!email || !password) {
         toast.error("Please fill all the fields.");
+        setLoading(false);
+        return;
+      }
+
+      // Email validation using regular expression
+      const emailPattern =
+        /^[a-zA-Z][a-zA-Z0-9._-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailPattern.test(email)) {
+        toast.error("Please enter a valid email address.");
+        setLoading(false);
         return;
       }
 

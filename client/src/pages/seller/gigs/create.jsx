@@ -151,6 +151,7 @@ const create = () => {
               name="time"
               value={data.time}
               onChange={handleChange}
+              min={1}
               placeholder="Minimum Delivery Time"
             />
           </div>
@@ -166,6 +167,7 @@ const create = () => {
               name="revisions"
               value={data.revisions}
               onChange={handleChange}
+              min={0}
             />
           </div>
         </div>
