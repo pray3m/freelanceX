@@ -9,7 +9,7 @@ const nextConfig = {
           process.env.NODE_ENV === "production"
             ? "freelancex.onrender.com"
             : "localhost",
-        port: process.env.NODE_ENV === "production" ? "" : "5000",
+        port: process.env.NODE_ENV === "production" ? "" : "5001",
         pathname: "**",
       },
     ],
