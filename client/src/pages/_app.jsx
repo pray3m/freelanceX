@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }) {
     <StateProvider initialState={initialState} reducer={reducer}>
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" />
-        <title>freelanceX</title>
+        <title>Skill Bridge</title>
       </Head>
       <NextNProgress stopDelayMs={20} />
       <ToastContainer />

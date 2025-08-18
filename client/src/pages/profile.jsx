@@ -123,7 +123,7 @@ function Profile() {
               <span className="text-red-600 font-bold">{errorMessage}</span>
             </div>
           )}
-          <h2 className="text-3xl">Welcome to freelanceX 👋 </h2>
+          <h2 className="text-3xl">Welcome to Skill Bridge 👋 </h2>
           <h4 className="text-xl">
             Please complete your profile to get started!
           </h4>

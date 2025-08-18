@@ -29,7 +29,7 @@ prisma
   .catch((error) => console.error("Failed to connect to MongoDB", error));
 
 app.get("/", (req, res) => {
-  res.send(" 🚀 FreelanceX API Playground!🤖 ");
+  res.send(" 🚀 Skill Bridge API Playground!🤖 ");
 });
 
 app.get("/ping", (req, res) => {

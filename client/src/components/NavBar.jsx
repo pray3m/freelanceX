@@ -74,7 +74,7 @@ const NavBar = () => {
   }, [isOpen]);
 
   const links = [
-    { linkName: "X Business", handler: "#", type: "link" },
+    { linkName: "Business", handler: "#", type: "link" },
     { linkName: "Explore", handler: "#", type: "link" },
     { linkName: "Become a Seller", handler: "#", type: "link" },
     { linkName: "Sign in", handler: handleLogin, type: "button" },
@@ -202,8 +202,12 @@ const NavBar = () => {
                   }
                 >
                   <span className="text-2xl md:text-3xl font-semibold flex items-center">
-                    <i>freelance</i>{" "}
-                    <b className="text-green-700 text-3xl md:text-4xl">X</b>
+                    {/* <b className="text-green-700 text-3xl md:text-4xl">
+                      Skill {""}
+                    </b> */}
+                    <i>
+                      Skill <span className="text-green-600">Bridge</span>
+                    </i>
                   </span>
                 </p>
               </Link>

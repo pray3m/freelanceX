@@ -33,7 +33,7 @@ function JoinFreelance() {
           type="button"
           onClick={handleSignup}
         >
-          Join FreelanceX
+          Join Skill Bridge
         </button>
       </div>
       <div className="brightness-90 md:brightness-100 h-80 w-full md:h-96">
