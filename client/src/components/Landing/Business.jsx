@@ -15,8 +15,9 @@ const Business = () => {
       <div className="text-white flex flex-col gap-6 justify-center items-start">
         <div className="flex gap-2 text-white text-2xl md:text-3xl font-bold items-center">
           <span>
-            <i>freelance</i>
-            <b className="text-green-500 text-4xl">X</b>
+            <i>
+              Skill <span className="text-green-600">Bridge</span>
+            </i>
           </span>
           <span className="">Business</span>
         </div>
