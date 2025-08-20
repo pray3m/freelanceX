@@ -55,8 +55,21 @@ const AuthWrapper = ({ type }) => {
       }
       setLoading(false);
     } catch (err) {
-      console.log(err);
-      toast.error("An error occurred.");
+      console.error("Auth error:", err);
+      if (axios.isAxiosError(err)) {
+        const resp = err.response;
+        console.log("@RESPONSE (error)", resp?.data, "status:", resp?.status);
+        const data = resp?.data;
+        const message =
+          typeof data === "string"
+            ? data
+            : data?.error || data?.message || "An error occurred";
+
+        toast.error(message);
+      } else {
+        toast.error(err?.message || "An unexpected error occurred.");
+      }
+    } finally {
       setLoading(false);
     }
   };

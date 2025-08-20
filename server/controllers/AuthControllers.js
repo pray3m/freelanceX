@@ -1,14 +1,7 @@
-import prisma from "../prisma/client.js";
-import pkg from "@prisma/client";
-const Prisma = pkg.Prisma;
-import { compare, genSalt, hash } from "bcrypt";
-import jwt from "jsonwebtoken";
 import { renameSync } from "fs";
-
-const generatePassword = async (password) => {
-  const salt = await genSalt();
-  return await hash(password, salt);
-};
+import jwt from "jsonwebtoken";
+import prisma from "../prisma/client.js";
+import { loginUser, registerUser } from "../services/authService.js";
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -21,51 +14,29 @@ const generateToken = (email, userId) => {
 export const signup = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (email && password) {
-      const user = await prisma.user.create({
-        data: {
-          email,
-          password: await generatePassword(password),
-          username: email.split("@")[0] + "fx",
-        },
-      });
-      return res.status(200).json({
-        user: { id: user.id, email: user.email },
-        jwt: generateToken(email, user.id),
-      });
-    }
-    return res.status(400).send("Email and password are required");
+
+    const user = await registerUser({ email, password });
+
+    return res.status(200).json({
+      user: { id: user.id, email: user.email },
+      jwt: generateToken(email, user.id),
+    });
   } catch (err) {
-    console.log(err);
-    return res.status(500).send("Internal Server Error");
+    next(err);
   }
 };
 
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if (email && password) {
-      const user = await prisma.user.findUnique({
-        where: { email },
-      });
-      if (!user) {
-        return res.status(400).send("User not found");
-      }
-      const auth = await compare(password, user.password);
-
-      if (!auth) {
-        return res.status(400).send("Invalid password");
-      }
-
-      return res.status(200).json({
-        user: { id: user.id, email: user.email },
-        jwt: generateToken(email, user.id),
-      });
-    }
-    return res.status(400).send("Email and password are required");
+    const user = await loginUser({ email, password });
+    return res.status(200).json({
+      user: { id: user.id, email: user.email },
+      jwt: generateToken(email, user.id),
+      message: "Login successful",
+    });
   } catch (err) {
-    console.log(err);
-    return res.status(500).send("Internal Server Error");
+    next(err);
   }
 };
 
