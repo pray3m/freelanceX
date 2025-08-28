@@ -1,16 +1,15 @@
 import { Router } from "express";
-import multer from "multer";
+import { uploadSingle } from "../config/cloudinary.config.js";
 import {
-  signup,
-  login,
   getUserInfo,
-  setUserInfo,
+  login,
   setUserImage,
+  setUserInfo,
+  signup,
 } from "../controllers/AuthControllers.js";
 import { verifyToken } from "../middlewares/AuthMiddleware.js";
 
 const authRoutes = Router();
-const upload = multer({ dest: "uploads/profiles" });
 
 authRoutes.post("/signup", signup);
 authRoutes.post("/login", login);
@@ -20,7 +19,7 @@ authRoutes.post("/set-user-info", verifyToken, setUserInfo);
 authRoutes.post(
   "/set-user-image",
   verifyToken,
-  upload.single("images"),
+  uploadSingle.single("images"),
   setUserImage
 );
 

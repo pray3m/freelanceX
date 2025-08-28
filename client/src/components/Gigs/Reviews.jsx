@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useStateProvider } from "../../context/StateContext";
-import { FaStar } from "react-icons/fa";
-import { HOST } from "../../utils/constants";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { FaStar } from "react-icons/fa";
+import { useStateProvider } from "../../context/StateContext";
 
 const Reviews = () => {
   const [{ gigData }] = useStateProvider();
@@ -50,7 +49,7 @@ const Reviews = () => {
                 <div>
                   {review.reviewer.profileImage ? (
                     <Image
-                      src={HOST + "/" + review.reviewer.profileImage}
+                      src={review.reviewer.profileImage}
                       alt="profile"
                       height={40}
                       width={40}

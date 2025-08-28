@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { useStateProvider } from "../../../context/StateContext.jsx";
-import { toast } from "react-toastify";
-import { GET_BUYER_ORDERS } from "../../../utils/constants";
 import axios from "axios";
-import Link from "next/link";
 import Image from "next/image";
-import { HOST } from "../../../utils/constants";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { SiGooglemessages } from "react-icons/si";
+import { toast } from "react-toastify";
+import { useStateProvider } from "../../../context/StateContext.jsx";
+import { GET_BUYER_ORDERS } from "../../../utils/constants";
 
 const index = () => {
   const [cookies] = useCookies();
@@ -86,7 +85,7 @@ const index = () => {
                   <td className="px-6 py-4">{order.gig.deliveryTime} days</td>
                   <td className="px-6 py-4 flex flex-col place-items-center ">
                     <Image
-                      src={HOST + "/" + order.gig.createdBy.profileImage}
+                      src={order.gig.createdBy.profileImage}
                       alt={order.gig.createdBy.username}
                       width={30}
                       height={30}

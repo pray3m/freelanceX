@@ -1,10 +1,10 @@
-import { useStateProvider } from "../../context/StateContext";
-import { GET_SELLER_DATA, HOST } from "../../utils/constants";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useStateProvider } from "../../context/StateContext";
+import { GET_SELLER_DATA } from "../../utils/constants";
 
 function Index() {
   const [cookies] = useCookies();

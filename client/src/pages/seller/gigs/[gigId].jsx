@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { categories } from "../../../utils/categories";
-import ImageUpload from "../../../components/ImageUpload";
 import axios from "axios";
-import {
-  ADD_GIG_ROUTE,
-  GET_GIG_BY_ID_ROUTE,
-  HOST,
-  UPDATE_GIG_ROUTE,
-} from "../../../utils/constants";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import ImageUpload from "../../../components/ImageUpload";
+import { categories } from "../../../utils/categories";
+import {
+  GET_GIG_BY_ID_ROUTE,
+  UPDATE_GIG_ROUTE
+} from "../../../utils/constants";
 
 const create = () => {
   const [cookies] = useCookies();
@@ -100,7 +98,7 @@ const create = () => {
         setFeatures(gig.features);
 
         gig.images.forEach((image) => {
-          const url = HOST + "/uploads/" + image;
+          const url = image;
           const fileName = image;
           fetch(url).then(async (response) => {
             const contentType = response.headers.get("content-type");

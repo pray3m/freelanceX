@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useStateProvider } from "../../context/StateContext";
-import { HOST } from "../../utils/constants";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import Reviews from "./Reviews";
+import { useStateProvider } from "../../context/StateContext";
 import AddReview from "./AddReview";
+import Reviews from "./Reviews";
 
 const Details = () => {
   const [{ gigData, hasOrdered }] = useStateProvider();
@@ -28,7 +27,7 @@ const Details = () => {
             <div>
               {gigData.createdBy.profileImage ? (
                 <Image
-                  src={HOST + "/" + gigData.createdBy?.profileImage}
+                  src={gigData.createdBy?.profileImage}
                   alt="profile"
                   height={30}
                   width={30}
@@ -71,7 +70,7 @@ const Details = () => {
           <div className="flex flex-col gap-4">
             <div className="max-h-[1000px] max-w-[1000px] overflow-hidden">
               <Image
-                src={HOST + "/uploads/" + currentImage}
+                src={currentImage}
                 alt="Gig"
                 height={1000}
                 width={1000}
@@ -83,7 +82,7 @@ const Details = () => {
               {gigData.images.length > 1 &&
                 gigData.images.map((image) => (
                   <Image
-                    src={HOST + "/uploads/" + image}
+                    src={image}
                     alt="gig"
                     height={100}
                     width={100}
@@ -115,7 +114,7 @@ const Details = () => {
               <div>
                 {gigData.createdBy.profileImage ? (
                   <Image
-                    src={HOST + "/" + gigData.createdBy.profileImage}
+                    src={gigData.createdBy.profileImage}
                     alt="profile"
                     height={120}
                     width={120}

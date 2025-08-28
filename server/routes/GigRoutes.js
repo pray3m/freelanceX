@@ -1,3 +1,4 @@
+import { upload } from "../config/cloudinary.config.js";
 import {
   addGig,
   getAllUserGigs,
@@ -9,16 +10,18 @@ import {
 } from "../controllers/GigController.js";
 import { verifyToken } from "../middlewares/AuthMiddleware.js";
 import { Router } from "express";
-import multer from "multer";
 
 export const gigRoutes = Router();
 
-const upload = multer({ dest: "uploads/" });
-
-gigRoutes.post("/add", verifyToken, upload.array("images"), addGig);
+gigRoutes.post("/add", verifyToken, upload.array("images", 5), addGig);
 gigRoutes.get("/", verifyToken, getAllUserGigs);
 gigRoutes.get("/get/:gigId", getGigById);
-gigRoutes.put("/edit/:gigId", verifyToken, upload.array("images"), updateGig);
+gigRoutes.put(
+  "/edit/:gigId",
+  verifyToken,
+  upload.array("images", 5),
+  updateGig
+);
 gigRoutes.get("/search", searchGigs);
 gigRoutes.get("/check-gig-order/:gigId", verifyToken, checkGigOrder);
 gigRoutes.post("/review/:gigId", verifyToken, addReview);

@@ -1,13 +1,12 @@
 import axios from "axios";
-import { useStateProvider } from "../context/StateContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { HOST, SET_USER_IMAGE, SET_USER_INFO } from "../utils/constants";
-import { reducerCases } from "../context/constants";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { headers } from "next/dist/client/components/headers";
 import { toast } from "react-toastify";
+import { reducerCases } from "../context/constants";
+import { useStateProvider } from "../context/StateContext";
+import { SET_USER_IMAGE, SET_USER_INFO } from "../utils/constants";
 
 function Profile() {
   const [cookies] = useCookies();
@@ -91,7 +90,7 @@ function Profile() {
               Authorization: `Bearer ${cookies.jwt}`,
             },
           });
-          imageName = img;
+          imageName = img; // This is now a full Cloudinary URL
         }
 
         dispatch({
@@ -99,7 +98,7 @@ function Profile() {
           userInfo: {
             ...userInfo,
             ...data,
-            image: imageName.length ? HOST + "/" + imageName : false,
+            image: imageName || false,
           },
         });
         toast.success("Profile updated successfully");

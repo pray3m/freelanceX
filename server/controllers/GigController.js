@@ -4,16 +4,9 @@ import prisma from "../prisma/client.js";
 export const addGig = async (req, res, next) => {
   try {
     if (req.files) {
-      const fileKeys = Object.keys(req.files);
-      const fileNames = [];
-      fileKeys.forEach((file) => {
-        const date = Date.now();
-        renameSync(
-          req.files[file].path,
-          "uploads/" + date + req.files[file].originalname
-        );
-        fileNames.push(date + req.files[file].originalname);
-      });
+      // Extract Cloudinary URLs from uploaded files
+      const imageUrls = req.files.map((file) => file.path);
+
       if (req.query) {
         const {
           title,
@@ -37,7 +30,7 @@ export const addGig = async (req, res, next) => {
             shortDesc,
             revisions: parseInt(revisions),
             createdBy: { connect: { id: req.userId } },
-            images: fileNames,
+            images: imageUrls,
           },
         });
 
@@ -117,16 +110,7 @@ export const getGigById = async (req, res, next) => {
 export const updateGig = async (req, res, next) => {
   try {
     if (req.files) {
-      const fileKeys = Object.keys(req.files);
-      const fileNames = [];
-      fileKeys.forEach((file) => {
-        const date = Date.now();
-        renameSync(
-          req.files[file].path,
-          "uploads/" + date + req.files[file].originalname
-        );
-        fileNames.push(date + req.files[file].originalname);
-      });
+      const imageUrls = req.files.map((file) => file.path);
       if (req.query) {
         const {
           title,
@@ -143,6 +127,15 @@ export const updateGig = async (req, res, next) => {
           where: { id: req.params.gigId },
         });
 
+        // Delete old images from Cloudinary
+        if (oldData?.images?.length > 0) {
+          for (const imageUrl of oldData.images) {
+            // Extract public_id from Cloudinary URL
+            const publicId = imageUrl.split("/").pop().split(".")[0];
+            await cloudinary.uploader.destroy(`freelanceX/${publicId}`);
+          }
+        }
+
         const gig = await prisma.gig.update({
           where: { id: req.params.gigId },
           data: {
@@ -155,14 +148,8 @@ export const updateGig = async (req, res, next) => {
             shortDesc,
             revisions: parseInt(revisions),
             createdBy: { connect: { id: req.userId } },
-            images: fileNames,
+            images: imageUrls,
           },
-        });
-
-        oldData?.images?.forEach((image) => {
-          if (existsSync(`uploads/${image}`)) {
-            unlinkSync(`uploads/${image}`);
-          }
         });
 
         return res.status(200).send("Successfuly updated the gig.");

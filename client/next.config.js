@@ -4,6 +4,11 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "**",
+      },
+      {
         protocol: process.env.NODE_ENV === "production" ? "https" : "http",
         hostname:
           process.env.NODE_ENV === "production"

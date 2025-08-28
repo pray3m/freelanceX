@@ -1,7 +1,5 @@
-import React from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
-import { HOST, IMAGES_URL } from "../../utils/constants";
+import { useRouter } from "next/router";
 import { FaStar } from "react-icons/fa";
 
 const SearchGridItem = ({ gig }) => {
@@ -24,18 +22,13 @@ const SearchGridItem = ({ gig }) => {
       onClick={() => router.push(`/gig/${gig.id}`)}
     >
       <div className="relative w-64 h-40">
-        <Image
-          src={`${IMAGES_URL}/${gig.images[0]}`}
-          alt="gig"
-          fill
-          className="rounded-xl"
-        />
+        <Image src={`${gig.images[0]}`} alt="gig" fill className="rounded-xl" />
       </div>
       <div className="flex items-center gap-2">
         <div>
           {gig.createdBy.profileImage ? (
             <Image
-              src={HOST + "/" + gig.createdBy.profileImage}
+              src={gig.createdBy.profileImage}
               alt="profile"
               height={30}
               width={30}

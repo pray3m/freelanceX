@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
+import { IoSearchOutline } from "react-icons/io5";
+import { RiCloseLine, RiMenu3Line } from "react-icons/ri";
+import { RxCross1 } from "react-icons/rx";
+import { toast } from "react-toastify";
 import { useStateProvider } from "../context/StateContext";
 import { reducerCases } from "../context/constants";
-import { IoSearchOutline } from "react-icons/io5";
-import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import { GET_USER_INFO, HOST } from "../utils/constants";
-import { toast } from "react-toastify";
+import { GET_USER_INFO } from "../utils/constants";
 import ContextMenu from "./ContextMenu";
-import { RxCross1 } from "react-icons/rx";
 
 const NavBar = () => {
   const router = useRouter();
@@ -127,7 +127,7 @@ const NavBar = () => {
           if (user.profileImage) {
             projectedUserInfo = {
               ...projectedUserInfo,
-              imageName: HOST + "/" + user.profileImage,
+              imageName: user.profileImage,
             };
           }
           delete projectedUserInfo.profileImage;

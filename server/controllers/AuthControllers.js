@@ -102,14 +102,14 @@ export const setUserImage = async (req, res, next) => {
     if (req.file) {
       if (req.userId) {
         console.log(req.file);
-        const date = Date.now();
-        let fileName = "uploads/profiles/" + date + req.file.originalname;
-        renameSync(req.file.path, fileName);
+
+        // Cloudinary automatically handles the upload and provides the URL
+        const imageUrl = req.file.path; // This is the Cloudinary URL
         await prisma.user.update({
           where: { id: req.userId },
-          data: { profileImage: fileName },
+          data: { profileImage: imageUrl },
         });
-        return res.status(200).json({ img: fileName });
+        return res.status(200).json({ img: imageUrl });
       }
       return res.status(400).send("Cookie error");
     }
