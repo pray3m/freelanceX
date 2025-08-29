@@ -1,5 +1,6 @@
 import { existsSync, renameSync, unlinkSync } from "fs";
 import prisma from "../prisma/client.js";
+import SearchService from "../services/SearchService.js";
 
 export const addGig = async (req, res, next) => {
   try {
@@ -165,11 +166,9 @@ export const updateGig = async (req, res, next) => {
 export const searchGigs = async (req, res, next) => {
   try {
     if (req.query.searchTerm || req.query.category) {
-      const searchTerm = req.query.searchTerm.toLowerCase();
-      const category = req.query.category;
-      const gigs = await prisma.gig.findMany(
-        createSearchQuery(searchTerm, category)
-      );
+      const searchTerm = req.query.searchTerm || "";
+      const category = req.query.category || "";
+      const gigs = await SearchService.fuzzySearch(searchTerm, category);
 
       return res.status(200).json({ gigs });
     }
@@ -178,33 +177,6 @@ export const searchGigs = async (req, res, next) => {
     console.log(err);
     return res.status(500).send("Internal Server Error.");
   }
-};
-
-const createSearchQuery = (searchTerm, category) => {
-  const query = {
-    where: {
-      OR: [],
-    },
-    include: {
-      createdBy: true,
-      reviews: {
-        include: {
-          reviewer: true,
-        },
-      },
-    },
-  };
-  if (searchTerm) {
-    query.where.OR.push({
-      title: { contains: searchTerm, mode: "insensitive" },
-    });
-  }
-  if (category) {
-    query.where.OR.push({
-      category: { contains: category, mode: "insensitive" },
-    });
-  }
-  return query;
 };
 
 const checkOrder = async (userId, gigId) => {

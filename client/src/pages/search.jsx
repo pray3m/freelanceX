@@ -14,14 +14,20 @@ const search = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const { data } = await axios.get(
-          `${SEARCH_GIGS_ROUTE}?searchTerm=${q}&category=${category}`
-        );
-        console.log(data);
-        setGigs(data.gigs);
+        const params = new URLSearchParams();
+        if (q && q !== "undefined") params.append("searchTerm", q);
+        if (category && category !== "undefined")
+          params.append("category", category);
+        if (params.toString()) {
+          const { data } = await axios.get(
+            `${SEARCH_GIGS_ROUTE}?${params.toString()}`
+          );
+          setGigs(data.gigs);
+        }
         setLoading(false);
       } catch (err) {
         console.log(err);
+        setLoading(false);
       }
     };
 
