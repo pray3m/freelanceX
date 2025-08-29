@@ -1,9 +1,7 @@
 import prisma from "../prisma/client.js";
 import Stripe from "stripe";
 
-const stripe = new Stripe(
-  "sk_test_51NIQJ9CJMR0Lai7k16d8Jc4VKX9wFxzOfT5Umia28EUlIzqAYQLGE60eKznODawIhUMSoHzipM23WwOYBTJxUzbD00R99oiTn0"
-);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createOrder = async (req, res, next) => {
   try {

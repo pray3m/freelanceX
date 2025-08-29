@@ -1,6 +1,6 @@
-import { existsSync, renameSync, unlinkSync } from "fs";
 import prisma from "../prisma/client.js";
 import SearchService from "../services/SearchService.js";
+import { apiLog } from "../utils/logger.js";
 
 export const addGig = async (req, res, next) => {
   try {
@@ -168,7 +168,12 @@ export const searchGigs = async (req, res, next) => {
     if (req.query.searchTerm || req.query.category) {
       const searchTerm = req.query.searchTerm || "";
       const category = req.query.category || "";
+
+      apiLog(`🔍 Search request: "${searchTerm}" | Category: "${category}"`);
+
       const gigs = await SearchService.fuzzySearch(searchTerm, category);
+
+      apiLog(`✅ Returning ${gigs.length} results`);
 
       return res.status(200).json({ gigs });
     }

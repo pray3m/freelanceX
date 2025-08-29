@@ -1,5 +1,6 @@
 import Fuse from "fuse.js";
 import prisma from "../prisma/client.js";
+import { searchLog, dbLog } from "../utils/logger.js";
 
 class SearchService {
   constructor() {
@@ -50,7 +51,8 @@ class SearchService {
       take: 100, // Limit for performance
     });
 
-    // Step 2: Apply fuzzy search (accurate)
+    dbLog(`Found ${dbResults.length} gigs from database`);
+
     if (!searchTerm) return dbResults;
 
     const searchableGigs = dbResults.map((gig) => ({
@@ -72,8 +74,8 @@ class SearchService {
       // Weighted total score
       const totalScore = titleScore + featureScore + qualityScore + fuzzyScore;
 
-      console.log(
-        `  📈 "${gig.title.substring(
+      searchLog(
+        `"${gig.title.substring(
           0,
           30
         )}..." - Title: ${titleScore}, Features: ${featureScore}, Quality: ${qualityScore}, Total: ${Math.round(
@@ -92,9 +94,11 @@ class SearchService {
       (a, b) => b.relevanceScore - a.relevanceScore
     );
 
-    console.log("🏆 Top 3 results:");
+    searchLog(
+      `🏆 Search completed: ${sortedResults.length} results for "${searchTerm}"`
+    );
     sortedResults.slice(0, 3).forEach((gig, index) => {
-      console.log(
+      searchLog(
         `  ${index + 1}. "${gig.title.substring(0, 40)}..." - Score: ${
           gig.relevanceScore
         }`

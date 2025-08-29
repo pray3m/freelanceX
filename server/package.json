@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "DEBUG=app:* nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node prisma/seed.js"
   },
