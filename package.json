@@ -15,5 +15,9 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.13",
     "turbo": "^2.8.0"
+  },
+  "dependencies": {
+    "@t3-oss/env-core": "^0.13.10",
+    "zod": "^4.3.6"
   }
 }

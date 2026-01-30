@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+import { env } from "./env.js";
 import prisma from "./prisma/client.js";
 
 const app = express();
@@ -10,8 +11,7 @@ const app = express();
 // Security
 app.use(helmet());
 
-// Logging Middleware
-if (process.env.NODE_ENV === "production") {
+if (env.NODE_ENV === "production") {
   app.use(morgan("combined"));
 } else {
   app.use(morgan("dev"));
@@ -24,10 +24,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: [process.env.PUBLIC_URL],
+    origin: [env.PUBLIC_URL],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
-  })
+  }),
 );
 
 // Prisma connection to MongoDB
@@ -38,6 +38,7 @@ prisma
 
 //Routes
 import router from "./routes/index.js";
+import { AppError, errorHandler } from "@utils/index.js";
 
 app.get("/", (req, res) => {
   res.send(" 🚀 FreelanceX API Playground!🤖 ");
@@ -45,8 +46,6 @@ app.get("/", (req, res) => {
 
 app.use("/", router);
 
-// 404 Handler
-import { AppError, errorHandler } from "./utils/index.js";
 app.use((req, res, next) => {
   throw new AppError(404, "Resource not found");
 });
