@@ -9,20 +9,24 @@
       "cache": true
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },
     "lint": {
+      "dependsOn": ["^build"],
       "outputs": ["coverage/**"]
     },
     "format": {
       "cache": false
     },
     "test": {
+      "dependsOn": ["^build"],
       "outputs": ["coverage/**"],
       "cache": true
     },
     "start": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     },

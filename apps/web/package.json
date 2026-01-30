@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@freelancex/types": "workspace:*",
     "@stripe/react-stripe-js": "^2.9.0",
     "@stripe/stripe-js": "^1.54.2",
     "autoprefixer": "10.4.14",

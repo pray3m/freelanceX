@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@freelancex/types": "workspace:*",
     "@prisma/client": "^4.16.2",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.9.0",

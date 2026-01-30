@@ -5,5 +5,8 @@
   "exports": {
     "./biome": "./biome.json",
     "./tsconfig": "./tsconfig.json"
+  },
+  "scripts": {
+    "lint": "echo 'No linting needed for config package'"
   }
 }
