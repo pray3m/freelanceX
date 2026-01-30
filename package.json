@@ -1,0 +1,23 @@
+{
+  "name": "freelancex",
+  "private": true,
+  "packageManager": "pnpm@10.28.2",
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "biome lint .",
+    "format": "biome format . --write",
+    "check": "biome check . --apply",
+    "start": "turbo run start --parallel",
+    "test": "turbo run test",
+    "seed": "turbo run seed"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.13",
+    "turbo": "^2.8.0"
+  },
+  "dependencies": {
+    "@t3-oss/env-core": "^0.13.10",
+    "zod": "^4.3.6"
+  }
+}
