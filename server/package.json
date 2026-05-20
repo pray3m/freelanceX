@@ -5,11 +5,21 @@
   "main": "index.js",
   "type": "module",
   "packageManager": "pnpm@11.1.3",
+  "engines": {
+    "node": ">=22.18.0 <23",
+    "pnpm": ">=11"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "DEBUG=app:* nodemon index.js",
+    "build": "prisma generate && prisma db push",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
