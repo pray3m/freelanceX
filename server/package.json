@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "packageManager": "pnpm@11.1.3",
   "scripts": {
     "start": "node index.js",
     "dev": "DEBUG=app:* nodemon index.js",
@@ -15,14 +16,14 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.16.2",
-    "bcrypt": "^5.1.1",
-    "cloudinary": "^2.9.0",
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "debug": "^4.4.3",
     "dotenv": "^16.6.1",
-    "express": "^4.22.1",
-    "fuse.js": "^7.1.0",
+    "express": "^4.22.2",
+    "fuse.js": "^7.3.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
@@ -32,6 +33,6 @@
     "stripe": "^12.18.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.14"
   }
 }
