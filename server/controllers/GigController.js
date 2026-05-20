@@ -1,5 +1,5 @@
 import prisma from "../prisma/client.js";
-import SearchService from "../services/SearchService.js";
+import SearchService from "../services/searchService.js";
 import { apiLog } from "../utils/logger.js";
 
 export const addGig = async (req, res, next) => {
